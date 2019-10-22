@@ -29,7 +29,9 @@ namespace WebAPI
         {
             services.AddDbContext<WatchListContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("WatchListContext")));
             //services.AddDbContext<WatchListContext>(opt => opt.UseInMemoryDatabase("WatchList"));
-            services.AddControllers();
+            //services.AddControllers();
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

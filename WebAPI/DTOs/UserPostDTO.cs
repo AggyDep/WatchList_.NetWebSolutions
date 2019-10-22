@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebAPI.Data;
 
-namespace WebAPI.Models
+namespace WebAPI.DTOs
 {
-    public class User
+    public class UserPostDTO
     {
         public int Id { get; set; }
         public Enumerations.Role Role { get; set; }
@@ -18,18 +18,10 @@ namespace WebAPI.Models
         [Required]
         public string Email { get; set; }
         [Required]
-        public string Username  { get; set; }
+        public string Username { get; set; }
         [Required]
         public string Password { get; set; }
-        public int Age { get; set; }
-        public string Birthday  { get; set; } //DateTime??
-        public string About { get; set; }
-        public  string Image { get; set; }
         [Required]
-        public  string Joined { get; set; } //DateTime??
-
-        public ICollection<WatchList> WatchLists { get; set; }
-
-        //public ICollection<UserFriend> UserFriends { get; set; }
+        public string Joined { get; set; }
     }
 }

@@ -4,13 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebAPI.Models
+namespace WebAPI.DTOs
 {
-    public class SerieMovie
+    public class SeriePutDTO
     {
         public int Id { get; set; }
-        [Required]
-        public Boolean IsSerie { get; set; }
         [Required]
         public string Name { get; set; }
         public int Episode { get; set; }
@@ -30,9 +28,8 @@ namespace WebAPI.Models
         public int Ranking { get; set; }
         public int Member { get; set; }
         public string Image { get; set; }
-
-        public ICollection<SerieMovieGenre> SerieMovieGenres { get; set; }
-        public ICollection<SerieMovieActor> SerieMovieActors { get; set; }
-        public ICollection<WatchList> WatchLists { get; set; }
+        public ICollection<SerieMovieGenreDTO> SerieMovieGenreDTOs { get; set; }
+        public ICollection<SerieMovieActorDTO> SerieMovieActorDTOs { get; set; }
+        public ICollection<WatchListDTO> WatchListDTOs { get; set; }
     }
 }
