@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using WebAPI.DTOs.User;
 
 namespace WebAPI.DTOs
 {
@@ -21,5 +22,6 @@ namespace WebAPI.DTOs
         public string About { get; set; }
         public string Image { get; set; }
         public ICollection<WatchListDTO> WatchListDTOs { get; set; }
+        public ICollection<UserFriendDTO> UserFriendsDTOs { get; set; }
     }
 }

@@ -11,5 +11,6 @@ namespace WebAPI.DTOs
         public int Id { get; set; }
         [Required]
         public string GenreName { get; set; }
+        public ICollection<SerieMovieGenreDTO> SerieMovieGenreDTOs { get; set; }
     }
 }

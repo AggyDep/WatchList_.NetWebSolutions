@@ -17,6 +17,5 @@ namespace WebAPI.DTOs
         public string Email { get; set; }
         [Required]
         public string Username { get; set; }
-        public ICollection<WatchListDTO> WatchListDTOs { get; set; }
     }
 }
