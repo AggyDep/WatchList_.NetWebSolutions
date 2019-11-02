@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebAPI.Data;
+using WebAPI.DTOs;
 using WebAPI.Models;
 
 namespace WebAPI.Controllers
@@ -78,12 +79,38 @@ namespace WebAPI.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<SerieMovie>> PostSerieMovie(SerieMovie serieMovie)
+        public async Task<ActionResult<SerieMoviePostDTO>> PostSerieMovie(SerieMoviePostDTO serieMoviePost)
         {
-            _context.SerieMovies.Add(serieMovie);
+            var serieMovie = _context.SerieMovies.Add( new SerieMovie()
+            {
+                IsSerie = serieMoviePost.IsSerie,
+                Name = serieMoviePost.Name,
+                Director = serieMoviePost.Director,
+                Status = serieMoviePost.Status,
+                Aired = serieMoviePost.Aired,
+                Duration = serieMoviePost.Duration,
+                SerieMovieGenres = null,
+                SerieMovieActors = null
+            });
+
+           
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetSerieMovie", new { id = serieMovie.Id }, serieMovie);
+
+            foreach (SerieMovieActorDTO serieMovieActorDTO in serieMoviePost.SerieMovieActorDTOs)
+            {
+                Actor actor = _context.Actors.Find(serieMovieActorDTO.ActorId);
+                _context.SerieMovieActors.Add(new SerieMovieActor() { SerieMovieId = serieMovie.Entity.Id, ActorId = actor.Id });
+            }
+
+            foreach (SerieMovieGenreDTO serieMovieGenreDTO in serieMoviePost.SerieMovieGenreDTOs)
+            {
+                Genre genre = _context.Genres.Find(serieMovieGenreDTO.GenreId);
+                _context.SerieMovieGenres.Add(new SerieMovieGenre() { SerieMovieId = serieMovie.Entity.Id, GenreId = genre.Id });
+            }
+
+            await _context.SaveChangesAsync();
+            return CreatedAtAction("GetSerieMovie", new { id = serieMovie.Entity.Id }, serieMovie);
         }
 
         // DELETE: api/SerieMovies/5

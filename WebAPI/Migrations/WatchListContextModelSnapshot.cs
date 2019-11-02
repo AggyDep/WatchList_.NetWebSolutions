@@ -208,6 +208,21 @@ namespace WebAPI.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("WebAPI.Models.UserFriend", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FriendId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "FriendId");
+
+                    b.HasIndex("FriendId");
+
+                    b.ToTable("UserFriends");
+                });
+
             modelBuilder.Entity("WebAPI.Models.WatchList", b =>
                 {
                     b.Property<int>("UserId")
@@ -258,6 +273,21 @@ namespace WebAPI.Migrations
                     b.HasOne("WebAPI.Models.SerieMovie", "SerieMovie")
                         .WithMany("SerieMovieGenres")
                         .HasForeignKey("SerieMovieId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WebAPI.Models.UserFriend", b =>
+                {
+                    b.HasOne("WebAPI.Models.User", "Friend")
+                        .WithMany("FriendUsers")
+                        .HasForeignKey("FriendId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("WebAPI.Models.User", "User")
+                        .WithMany("UserFriends")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

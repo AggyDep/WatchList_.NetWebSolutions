@@ -30,6 +30,7 @@ namespace WebAPI.Models
 
         public ICollection<WatchList> WatchLists { get; set; }
 
-        //public ICollection<UserFriend> UserFriends { get; set; }
+        public ICollection<UserFriend> UserFriends { get; set; }
+        public ICollection<UserFriend> FriendUsers { get; set; }
     }
 }

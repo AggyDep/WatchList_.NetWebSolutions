@@ -19,7 +19,7 @@ namespace WebAPI.Data
         public DbSet<WatchList> WatchLists { get; set; }
         public DbSet<SerieMovieGenre> SerieMovieGenres { get; set; }
         public DbSet<SerieMovieActor> SerieMovieActors { get; set; }
-        //public DbSet<UserFriend> UserFriends { get; set; }
+        public DbSet<UserFriend> UserFriends { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -81,31 +81,22 @@ namespace WebAPI.Data
 
 
             //UserFriends
-            //modelBuilder.Entity<UserFriend>()
-            //    .HasKey(u => new { u.UserId, u.FriendId });
+            modelBuilder.Entity<UserFriend>()
+                .HasKey(u => new { u.UserId, u.FriendId });
 
-            //modelBuilder.Entity<UserFriend>()
-            //    .HasOne(u => u.User)
-            //    .WithMany(u => u.UserFriends)
-            //    .HasForeignKey(u => u.UserId)
-            //    .IsRequired()
-            //    .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<UserFriend>()
+                .HasOne(u => u.User)
+                .WithMany(u => u.UserFriends)
+                .HasForeignKey(u => u.UserId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
 
-            //modelBuilder.Entity<UserFriend>()
-            //    .HasOne(u => u.Friend)
-            //    .WithMany(u => u.UserFriends)
-            //    .HasForeignKey(u => u.FriendId)
-            //    .IsRequired()
-            //    .OnDelete(DeleteBehavior.Restrict);
-            //modelBuilder.Entity<User>()
-            //    .HasMany(u => UserFriends)
-            //    .WithMany()
-            //    .Map(modelBuilder =>
-            //    {
-            //        m.MapLeftKey("UserId");
-            //        m.MapRightKey("FriendId");
-            //        m.ToTable("user_friend");
-            //    });
+            modelBuilder.Entity<UserFriend>()
+                .HasOne(u => u.Friend)
+                .WithMany(u => u.FriendUsers)
+                .HasForeignKey(u => u.FriendId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace WebAPI.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialCreate2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -49,7 +49,6 @@ namespace WebAPI.Migrations
                     Season = table.Column<int>(nullable: false),
                     Synopsis = table.Column<string>(nullable: true),
                     Background = table.Column<string>(nullable: true),
-                    Studio = table.Column<string>(nullable: true),
                     Producer = table.Column<string>(nullable: true),
                     Director = table.Column<string>(nullable: false),
                     Status = table.Column<string>(nullable: false),
@@ -71,6 +70,7 @@ namespace WebAPI.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Role = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     LastName = table.Column<string>(nullable: false),
                     Email = table.Column<string>(nullable: false),
@@ -136,6 +136,30 @@ namespace WebAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserFriends",
+                columns: table => new
+                {
+                    UserId = table.Column<int>(nullable: false),
+                    FriendId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserFriends", x => new { x.UserId, x.FriendId });
+                    table.ForeignKey(
+                        name: "FK_UserFriends_Users_FriendId",
+                        column: x => x.FriendId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserFriends_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "WatchLists",
                 columns: table => new
                 {
@@ -173,6 +197,11 @@ namespace WebAPI.Migrations
                 column: "GenreId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_UserFriends_FriendId",
+                table: "UserFriends",
+                column: "FriendId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_WatchLists_SerieMovieId",
                 table: "WatchLists",
                 column: "SerieMovieId");
@@ -185,6 +214,9 @@ namespace WebAPI.Migrations
 
             migrationBuilder.DropTable(
                 name: "SerieMovieGenres");
+
+            migrationBuilder.DropTable(
+                name: "UserFriends");
 
             migrationBuilder.DropTable(
                 name: "WatchLists");
