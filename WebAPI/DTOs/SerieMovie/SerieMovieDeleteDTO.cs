@@ -13,8 +13,5 @@ namespace WebAPI.DTOs
         public Boolean IsSerie { get; set; }
         [Required]
         public string Name { get; set; }
-        public ICollection<SerieMovieGenreDTO> SerieMovieGenreDTOs { get; set; }
-        public ICollection<SerieMovieActorDTO> SerieMovieActorDTOs { get; set; }
-        public ICollection<WatchListDTO> WatchListDTOs { get; set; }
     }
 }

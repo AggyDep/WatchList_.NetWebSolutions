@@ -109,7 +109,7 @@ namespace WebAPI.Controllers
                 Email = userPostDTO.Email,
                 Username = userPostDTO.Username,
                 Password = userPostDTO.Password,
-                Joined = DateTime.Now.ToString("MM\\/dd\\/yyyy")
+                Joined = DateTime.Now.ToString("dd\\/MM\\/yyyy")
             });
 
             await _context.SaveChangesAsync();
@@ -147,7 +147,13 @@ namespace WebAPI.Controllers
                     WatchList watchList = _context.WatchLists.Find(watchListDTO.SerieMovieId);
                     user.WatchLists.Add(new WatchList() 
                     {
-                        
+                        UserId = user.Id,
+                        User = user,
+                        SerieMovieId = watchList.SerieMovieId,
+                        SerieMovie = watchList.SerieMovie,
+                        Status = watchList.Status,
+                        Score = watchList.Score,
+                        Episode = watchList.Episode  
                     });
                 }
 
@@ -155,7 +161,7 @@ namespace WebAPI.Controllers
 
                 foreach(UserFriendDTO userFriendDTO in userPutDTO.UserFriendsDTOs)
                 {
-                    User userFriend = _context.Users.Find(userFriendDTO.UserId);
+                    User userFriend = _context.Users.Find(userFriendDTO.FriendId);
                     user.UserFriends.Add(new UserFriend()
                     {
                         UserId = user.Id,
@@ -163,6 +169,14 @@ namespace WebAPI.Controllers
                         FriendId = userFriend.Id,
                         Friend = userFriend
                     });
+
+                    //userFriend.UserFriends.Add(new UserFriend()
+                    //{
+                    //    UserId = userFriend.Id,
+                    //    User = userFriend,
+                    //    FriendId = user.Id,
+                    //    Friend = user
+                    //});
                 }
 
                 await _context.SaveChangesAsync();
@@ -252,6 +266,6 @@ namespace WebAPI.Controllers
                     break;
             }
             return roleValue;
-        } 
+        }
     }
 }

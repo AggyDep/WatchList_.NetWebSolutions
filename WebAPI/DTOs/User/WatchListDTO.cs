@@ -13,7 +13,6 @@ namespace WebAPI.DTOs
         public string UserName { get; set; }
         public int SerieMovieId { get; set; }
         public string SerieMovieName { get; set; }
-        [Required]
         public Enumerations.Status Status { get; set; }
         public int Score { get; set; }
         public int Episode { get; set; }

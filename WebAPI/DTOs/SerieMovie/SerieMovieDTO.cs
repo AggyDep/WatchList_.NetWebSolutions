@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebAPI.DTOs
+namespace WebAPI.DTOs.SerieMovie
 {
-    public class SerieDTO
+    public class SerieMovieDTO
     {
         public int Id { get; set; }
         [Required]
@@ -16,6 +16,7 @@ namespace WebAPI.DTOs
         public int Episode { get; set; }
         public int Season { get; set; }
         public string Synopsis { get; set; }
+        public string Background { get; set; }
         public string Producer { get; set; }
         [Required]
         public string Director { get; set; }
@@ -29,7 +30,6 @@ namespace WebAPI.DTOs
         public int Ranking { get; set; }
         public int Member { get; set; }
         public string Image { get; set; }
-
         public ICollection<SerieMovieGenreDTO> SerieMovieGenreDTOs { get; set; }
         public ICollection<SerieMovieActorDTO> SerieMovieActorDTOs { get; set; }
     }
