@@ -54,7 +54,7 @@ namespace WebAPI.Repositories
                .ConfigureAwait(false);
         }
 
-        public async Task<SerieMovieDTO> GetActorGetSerieMovie(int id)
+        public async Task<SerieMovieDTO> GetSerieMovie(int id)
         {
            return await _context.SerieMovies
                 .Include(s => s.SerieMovieActors).Include(s => s.SerieMovieGenres)
@@ -66,7 +66,6 @@ namespace WebAPI.Repositories
                     Episode = s.Episode,
                     Season = s.Season,
                     Synopsis = s.Synopsis,
-                    Background = s.Background,
                     Producer = s.Producer,
                     Director = s.Director,
                     Status = s.Status,
@@ -158,7 +157,6 @@ namespace WebAPI.Repositories
                 serieMovie.Episode = serieMovieDTO.Episode;
                 serieMovie.Season = serieMovieDTO.Season;
                 serieMovie.Synopsis = serieMovieDTO.Synopsis;
-                serieMovie.Background = serieMovieDTO.Background;
                 serieMovie.Producer = serieMovieDTO.Producer;
                 serieMovie.Director = serieMovieDTO.Director;
                 serieMovie.Status = serieMovieDTO.Status;

@@ -23,6 +23,30 @@ namespace WebAPI.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //User - Unique Indexes
+            modelBuilder.Entity<User>()
+                .HasIndex(u => new { u.Username } )
+                .IsUnique(true)
+                .HasName("UQ_User_Username");
+
+            //SerieMovie - Unique Indexes
+            modelBuilder.Entity<SerieMovie>()
+                .HasIndex(s => new { s.Name })
+                .IsUnique(true)
+                .HasName("UQ_SerieMovie_Name");
+
+            //Genre - Unique Indexes
+            modelBuilder.Entity<Genre>()
+                .HasIndex(g => new { g.GenreName })
+                .IsUnique(true)
+                .HasName("UQ_Genre_Name");
+
+            //SerieMovie - Unique Indexes
+            modelBuilder.Entity<Actor>()
+                .HasIndex(a => new { a.FullName })
+                .IsUnique(true)
+                .HasName("UQ_Actor_Name");
+
             //Watchlist
             modelBuilder.Entity<WatchList>()
                 .HasKey(w => new { w.UserId, w.SerieMovieId });
@@ -60,6 +84,12 @@ namespace WebAPI.Data
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
 
+            //Unique index
+            modelBuilder.Entity<SerieMovieActor>()
+                .HasIndex(s => new { s.ActorId, s.SerieMovieId })
+                .IsUnique(true)
+                .HasName("UQ_SerieMovieActor_ActorId_SerieMovieId");
+
 
             //SerieMovierGenre
             modelBuilder.Entity<SerieMovieGenre>()
@@ -79,6 +109,12 @@ namespace WebAPI.Data
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
 
+            //Unique index
+            modelBuilder.Entity<SerieMovieGenre>()
+                .HasIndex(s => new { s.GenreId, s.SerieMovieId })
+                .IsUnique(true)
+                .HasName("UQ_SerieMovieGenre_GenreId_SerieMovieId");
+
 
             //UserFriends
             modelBuilder.Entity<UserFriend>()
@@ -97,6 +133,8 @@ namespace WebAPI.Data
                 .HasForeignKey(u => u.FriendId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
+
+            
         }
     }
 }

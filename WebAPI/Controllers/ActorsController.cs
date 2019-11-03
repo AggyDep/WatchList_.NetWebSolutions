@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using WebAPI.Data;
 using WebAPI.DTOs;
 using WebAPI.Models;
+using WebAPI.Repositories;
 
 namespace WebAPI.Controllers
 {
@@ -16,62 +17,26 @@ namespace WebAPI.Controllers
     public class ActorsController : ControllerBase
     {
         private readonly WatchListContext _context;
+        private readonly IActorRepository _actorRepository;
 
-        public ActorsController(WatchListContext context)
+        public ActorsController(WatchListContext context, IActorRepository actorRepository)
         {
             _context = context;
+            _actorRepository = actorRepository;
         }
 
         // GET: api/Actors
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ActorDTO>>> GetActors()
         {
-            return await _context.Actors.Include(a => a.SerieMovieActors)
-                .Select(a => new ActorDTO()
-                {
-                    Id = a.Id,
-                    FullName = a.FullName,
-                    Birthday = a.Birthday,
-                    Biography = a.Biography,
-                    Age = a.Age,
-                    Website = a.Website,
-                    Image = a.Image,
-                    SerieMovieActorDTOs = a.SerieMovieActors.Select(x => new SerieMovieActorDTO() 
-                    {
-                        SerieMovieId = x.SerieMovieId,
-                        SerieMovieName = x.SerieMovie.Name,
-                        ActorId = a.Id,
-                        ActorName = a.FullName 
-                    }).ToList()
-                })
-                .AsNoTracking()
-                .ToListAsync();
+            return Ok(await _actorRepository.GetActors().ConfigureAwait(false));
         }
 
         // GET: api/Actors/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ActorDTO>> GetActor(int id)
         {
-            var actor = await _context.Actors.Include(a => a.SerieMovieActors)
-                .Select(a => new ActorDTO() 
-                {
-                    Id = a.Id,
-                    FullName = a.FullName,
-                    Birthday = a.Birthday,
-                    Age = a.Age,
-                    Biography = a.Biography,
-                    Website = a.Website,
-                    Image = a.Image,
-                    SerieMovieActorDTOs = a.SerieMovieActors.Select(x => new SerieMovieActorDTO()
-                    {
-                        SerieMovieId = x.SerieMovieId,
-                        SerieMovieName = x.SerieMovie.Name,
-                        ActorId = a.Id,
-                        ActorName = a.FullName
-                    }).ToList()
-                }) 
-                .AsNoTracking()
-                .FirstOrDefaultAsync(a => a.Id == id);
+            var actor = await _actorRepository.GetActor(id).ConfigureAwait(false);
 
             if (actor == null) return NotFound();
 
@@ -79,67 +44,25 @@ namespace WebAPI.Controllers
         }
 
         // POST: api/Actors
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
         public async Task<ActionResult<ActorPostDTO>> PostActor(ActorPostDTO actorPostDTO)
         {
-            var actorResult = _context.Actors.Add(new Actor()
-            {
-                FullName = actorPostDTO.FullName,
-                Birthday = actorPostDTO.Birthday,
-                Age = (Int32.Parse(DateTime.Now.Year.ToString()) - Int32.Parse(actorPostDTO.Birthday.Substring(actorPostDTO.Birthday.Length - 4))),
-                Image = actorPostDTO.Image
-            });
+            var actorResult = await _actorRepository.PostActor(actorPostDTO).ConfigureAwait(false);
 
-            await _context.SaveChangesAsync();
-
-            actorPostDTO.Id = actorResult.Entity.Id;
-
-            return CreatedAtAction("GetActor", new { id = actorPostDTO.Id }, actorPostDTO);
+            return CreatedAtAction("GetActor", new { id = actorResult.Id }, actorResult);
         }
 
         // PUT: api/Actors/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
         public async Task<IActionResult> PutActor(int id, ActorPutDTO actorPutDTO)
         {
+            if(actorPutDTO == null) { throw new ArgumentNullException(nameof(actorPutDTO)); }
+
             if (id != actorPutDTO.Id) return BadRequest();
-            //_context.Entry(actor).State = EntityState.Modified;
 
-            try
-            {
-                Actor actor = await _context.Actors.Include(a => a.SerieMovieActors)
-                    .FirstOrDefaultAsync(a => a.Id == id);
-                actor.FullName = actorPutDTO.FullName;
-                actor.Birthday = actorPutDTO.Birthday;
-                actor.Age = actorPutDTO.Age;
-                actor.Biography = actorPutDTO.Biography;
-                actor.Website = actorPutDTO.Website;
-                actor.Image = actorPutDTO.Image;
+            var actorResult = await _actorRepository.PutActor(id, actorPutDTO).ConfigureAwait(false);
 
-                _context.SerieMovieActors.RemoveRange(actor.SerieMovieActors);
-
-                foreach(SerieMovieActorDTO serieMovieActorDTO in actorPutDTO.SerieMovieActorDTOs)
-                {
-                    SerieMovie serieMovie = _context.SerieMovies.Find(serieMovieActorDTO.SerieMovieId);
-                    actor.SerieMovieActors.Add(new SerieMovieActor()
-                    {
-                        SerieMovieId = serieMovie.Id,
-                        SerieMovie = serieMovie,
-                        ActorId = actor.Id,
-                        Actor = actor
-                    });
-                }
-
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ActorExists(id)) return NotFound();
-                else throw;
-            }
+            if (actorResult == null) return NotFound();
 
             return NoContent();
         }
@@ -149,27 +72,11 @@ namespace WebAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<ActorDeleteDTO>> DeleteActor(int id)
         {
-            var actor = await _context.Actors
-                .Include(a => a.SerieMovieActors)
-                .FirstOrDefaultAsync(a => a.Id == id);
+            var actorResult = await _actorRepository.DeleteActor(id).ConfigureAwait(false);
 
-            if (actor == null) return NotFound();
+            if (actorResult == null) return NotFound();
 
-            _context.SerieMovieActors.RemoveRange(actor.SerieMovieActors);
-            _context.Actors.Remove(actor);
-            await _context.SaveChangesAsync();
-
-            return new ActorDeleteDTO()
-            {
-                Id = actor.Id,
-                FullName = actor.FullName,
-                Birthday = actor.Birthday
-            };
-        }
-
-        private bool ActorExists(int id)
-        {
-            return _context.Actors.Any(e => e.Id == id);
+            return actorResult;
         }
     }
 }

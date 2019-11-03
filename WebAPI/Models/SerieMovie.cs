@@ -15,8 +15,8 @@ namespace WebAPI.Models
         public string Name { get; set; }
         public int Episode { get; set; }
         public int Season { get; set; }
+        [StringLength(1000, ErrorMessage = "Synopsis length can't be more theb 1000")]
         public string Synopsis { get; set; }
-        public string Background { get; set; }
         public string Producer { get; set; }
         [Required]
         public string Director { get; set; }

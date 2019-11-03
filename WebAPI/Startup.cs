@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using WebAPI.Models;
 using WebAPI.Data;
+using WebAPI.Repositories;
 
 namespace WebAPI
 {
@@ -32,6 +33,10 @@ namespace WebAPI
             //services.AddControllers();
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IActorRepository, ActorRepository>();
+            services.AddScoped<IGenreRepository, GenreRepository>();
+            services.AddScoped<ISerieMovieRepository, SerieMovieRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

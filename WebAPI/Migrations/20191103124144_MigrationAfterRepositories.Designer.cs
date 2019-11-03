@@ -9,8 +9,8 @@ using WebAPI.Data;
 namespace WebAPI.Migrations
 {
     [DbContext(typeof(WatchListContext))]
-    [Migration("20191023121907_InitialCreate2")]
-    partial class InitialCreate2
+    [Migration("20191103124144_MigrationAfterRepositories")]
+    partial class MigrationAfterRepositories
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,14 +31,17 @@ namespace WebAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Biography")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(3000)")
+                        .HasMaxLength(3000);
 
                     b.Property<string>("Birthday")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<string>("FullName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(250)")
+                        .HasMaxLength(250);
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
@@ -47,6 +50,10 @@ namespace WebAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FullName")
+                        .IsUnique()
+                        .HasName("UQ_Actor_Name");
 
                     b.ToTable("Actors");
                 });
@@ -60,9 +67,13 @@ namespace WebAPI.Migrations
 
                     b.Property<string>("GenreName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("GenreName")
+                        .IsUnique()
+                        .HasName("UQ_Genre_Name");
 
                     b.ToTable("Genres");
                 });
@@ -76,9 +87,6 @@ namespace WebAPI.Migrations
 
                     b.Property<string>("Aired")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Background")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Director")
@@ -103,7 +111,7 @@ namespace WebAPI.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Producer")
                         .HasColumnType("nvarchar(max)");
@@ -122,9 +130,14 @@ namespace WebAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Synopsis")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(1000)")
+                        .HasMaxLength(1000);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasName("UQ_SerieMovie_Name");
 
                     b.ToTable("SerieMovies");
                 });
@@ -139,7 +152,9 @@ namespace WebAPI.Migrations
 
                     b.HasKey("SerieMovieId", "ActorId");
 
-                    b.HasIndex("ActorId");
+                    b.HasIndex("ActorId", "SerieMovieId")
+                        .IsUnique()
+                        .HasName("UQ_SerieMovieActor_ActorId_SerieMovieId");
 
                     b.ToTable("SerieMovieActors");
                 });
@@ -154,7 +169,9 @@ namespace WebAPI.Migrations
 
                     b.HasKey("SerieMovieId", "GenreId");
 
-                    b.HasIndex("GenreId");
+                    b.HasIndex("GenreId", "SerieMovieId")
+                        .IsUnique()
+                        .HasName("UQ_SerieMovieGenre_GenreId_SerieMovieId");
 
                     b.ToTable("SerieMovieGenres");
                 });
@@ -203,9 +220,13 @@ namespace WebAPI.Migrations
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Username")
+                        .IsUnique()
+                        .HasName("UQ_User_Username");
 
                     b.ToTable("Users");
                 });

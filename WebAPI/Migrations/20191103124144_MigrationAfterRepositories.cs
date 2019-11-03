@@ -2,7 +2,7 @@
 
 namespace WebAPI.Migrations
 {
-    public partial class InitialCreate2 : Migration
+    public partial class MigrationAfterRepositories : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,10 +12,10 @@ namespace WebAPI.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FullName = table.Column<string>(nullable: false),
+                    FullName = table.Column<string>(maxLength: 250, nullable: false),
                     Age = table.Column<int>(nullable: false),
-                    Birthday = table.Column<string>(nullable: true),
-                    Biography = table.Column<string>(nullable: true),
+                    Birthday = table.Column<string>(maxLength: 20, nullable: true),
+                    Biography = table.Column<string>(maxLength: 3000, nullable: true),
                     Website = table.Column<string>(nullable: true),
                     Image = table.Column<string>(nullable: true)
                 },
@@ -47,8 +47,7 @@ namespace WebAPI.Migrations
                     Name = table.Column<string>(nullable: false),
                     Episode = table.Column<int>(nullable: false),
                     Season = table.Column<int>(nullable: false),
-                    Synopsis = table.Column<string>(nullable: true),
-                    Background = table.Column<string>(nullable: true),
+                    Synopsis = table.Column<string>(maxLength: 1000, nullable: true),
                     Producer = table.Column<string>(nullable: true),
                     Director = table.Column<string>(nullable: false),
                     Status = table.Column<string>(nullable: false),
@@ -187,19 +186,45 @@ namespace WebAPI.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_SerieMovieActors_ActorId",
-                table: "SerieMovieActors",
-                column: "ActorId");
+                name: "UQ_Actor_Name",
+                table: "Actors",
+                column: "FullName",
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_SerieMovieGenres_GenreId",
+                name: "UQ_Genre_Name",
+                table: "Genres",
+                column: "GenreName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "UQ_SerieMovieActor_ActorId_SerieMovieId",
+                table: "SerieMovieActors",
+                columns: new[] { "ActorId", "SerieMovieId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "UQ_SerieMovieGenre_GenreId_SerieMovieId",
                 table: "SerieMovieGenres",
-                column: "GenreId");
+                columns: new[] { "GenreId", "SerieMovieId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "UQ_SerieMovie_Name",
+                table: "SerieMovies",
+                column: "Name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserFriends_FriendId",
                 table: "UserFriends",
                 column: "FriendId");
+
+            migrationBuilder.CreateIndex(
+                name: "UQ_User_Username",
+                table: "Users",
+                column: "Username",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_WatchLists_SerieMovieId",
