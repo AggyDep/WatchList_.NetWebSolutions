@@ -127,16 +127,16 @@ namespace WebAPI.Repositories
 
                 foreach (WatchListDTO watchListDTO in userPutDTO.WatchListDTOs)
                 {
-                    WatchList watchList = _context.WatchLists.Find(watchListDTO.SerieMovieId);
+                    SerieMovie serieMovie = _context.SerieMovies.Find(watchListDTO.SerieMovieId);
                     user.WatchLists.Add(new WatchList()
                     {
                         UserId = user.Id,
                         User = user,
-                        SerieMovieId = watchList.SerieMovieId,
-                        SerieMovie = watchList.SerieMovie,
-                        Status = watchList.Status,
-                        Score = watchList.Score,
-                        Episode = watchList.Episode
+                        SerieMovieId = serieMovie.Id,
+                        SerieMovie = serieMovie,
+                        Status = watchListDTO.Status,
+                        Score = watchListDTO.Score,
+                        Episode = watchListDTO.Episode
                     });
                 }
 
@@ -144,7 +144,8 @@ namespace WebAPI.Repositories
 
                 foreach (UserFriendDTO userFriendDTO in userPutDTO.UserFriendsDTOs)
                 {
-                    User userFriend = _context.Users.Find(userFriendDTO.FriendId);
+                    User userFriend = await _context.Users.Include(u => u.UserFriends).FirstOrDefaultAsync(x => x.Id == userFriendDTO.FriendId);
+                    //User userFriend =  _context.Users.Find(userFriendDTO.FriendId);
                     user.UserFriends.Add(new UserFriend()
                     {
                         UserId = user.Id,
@@ -152,14 +153,13 @@ namespace WebAPI.Repositories
                         FriendId = userFriend.Id,
                         Friend = userFriend
                     });
-
-                    //userFriend.UserFriends.Add(new UserFriend()
-                    //{
-                    //    UserId = userFriend.Id,
-                    //    User = userFriend,
-                    //    FriendId = user.Id,
-                    //    Friend = user
-                    //});
+                    userFriend.UserFriends.Add(new UserFriend()
+                    {
+                        UserId = userFriend.Id,
+                        User = userFriend,
+                        FriendId = user.Id,
+                        Friend = user
+                    });
                 }
 
                 await _context.SaveChangesAsync().ConfigureAwait(false);
