@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +14,12 @@ namespace WebAPI.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly WatchListContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public UserRepository(WatchListContext context)
+        public UserRepository(WatchListContext context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public async Task<IEnumerable<UserDTO>> GetUsers()
@@ -25,14 +28,14 @@ namespace WebAPI.Repositories
                 .Select(u => new UserDTO()
                 {
                     Id = u.Id,
-                    Username = u.Username,
+                    Username = u.UserName,
                     About = u.About,
                     Image = u.Image,
                     Joined = u.Joined,
                     WatchListDTOs = u.WatchLists.Select(w => new WatchListDTO()
                     {
                         UserId = u.Id,
-                        UserName = u.Username,
+                        UserName = u.UserName,
                         SerieMovieId = w.SerieMovieId,
                         SerieMovieName = w.SerieMovie.Name,
                         Status = w.Status,
@@ -42,9 +45,9 @@ namespace WebAPI.Repositories
                     UserFriendsDTOs = u.UserFriends.Select(x => new UserFriendDTO()
                     {
                         UserId = u.Id,
-                        UserName = u.Username,
+                        UserName = u.UserName,
                         FriendId = x.FriendId,
-                        FriendName = x.Friend.Username
+                        FriendName = x.Friend.UserName
                     }).ToList()
                 })
                 .AsNoTracking()
@@ -52,20 +55,20 @@ namespace WebAPI.Repositories
                 .ConfigureAwait(false);
         }
 
-        public async Task<UserDTO> GetUser(int id)
+        public async Task<UserDTO> GetUser(string id)
         {
             return await _context.Users.Include(u => u.WatchLists).Include(u => u.UserFriends)
                 .Select(u => new UserDTO()
                 {
                     Id = u.Id,
-                    Username = u.Username,
+                    Username = u.UserName,
                     About = u.About,
                     Image = u.Image,
                     Joined = u.Joined,
                     WatchListDTOs = u.WatchLists.Select(w => new WatchListDTO()
                     {
                         UserId = u.Id,
-                        UserName = u.Username,
+                        UserName = u.UserName,
                         SerieMovieId = w.SerieMovieId,
                         SerieMovieName = w.SerieMovie.Name,
                         Status = w.Status,
@@ -75,9 +78,9 @@ namespace WebAPI.Repositories
                     UserFriendsDTOs = u.UserFriends.Select(x => new UserFriendDTO()
                     {
                         UserId = u.Id,
-                        UserName = u.Username,
+                        UserName = u.UserName,
                         FriendId = x.FriendId,
-                        FriendName = x.Friend.Username
+                        FriendName = x.Friend.UserName
                     }).ToList()
                 })
                 .AsNoTracking()
@@ -89,25 +92,24 @@ namespace WebAPI.Repositories
         {
             if (userPostDTO == null) { throw new ArgumentNullException(nameof(userPostDTO)); }
 
-            var userResult = _context.Users.Add(new User()
+            User user = new User
             {
                 Role = getRole(userPostDTO.Role),
                 Name = userPostDTO.Name,
                 LastName = userPostDTO.LastName,
                 Email = userPostDTO.Email,
-                Username = userPostDTO.Username,
-                Password = userPostDTO.Password,
+                UserName = userPostDTO.Username,
                 Joined = DateTime.Now.ToString("dd\\/MM\\/yyyy")
-            });
+            };
 
-            await _context.SaveChangesAsync().ConfigureAwait(false);
+            await _userManager.CreateAsync(user, userPostDTO.Password).ConfigureAwait(false);
 
-            userPostDTO.Id = userResult.Entity.Id;
+            userPostDTO.Id = user.Id;
 
             return userPostDTO;
         }
 
-        public async Task<UserPutDTO> PutUser(int id, UserPutDTO userPutDTO)
+        public async Task<UserPutDTO> PutUser(string id, UserPutDTO userPutDTO)
         {
             if (userPutDTO == null) { throw new ArgumentNullException(nameof(userPutDTO)); }
 
@@ -118,7 +120,7 @@ namespace WebAPI.Repositories
                 user.Name = userPutDTO.Name;
                 user.LastName = userPutDTO.LastName;
                 user.Email = userPutDTO.Email;
-                user.Username = userPutDTO.Username;
+                user.UserName = userPutDTO.Username;
                 user.Birthday = userPutDTO.Birthday;
                 user.About = userPutDTO.About;
                 user.Image = userPutDTO.Image;
@@ -162,38 +164,35 @@ namespace WebAPI.Repositories
                     });
                 }
 
-                await _context.SaveChangesAsync().ConfigureAwait(false);
+                await _userManager.UpdateAsync(user).ConfigureAwait(false);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(id)) return null;
+                if (await UserExists(id).ConfigureAwait(false) == false) return null;
                 else throw;
             }
-
             return userPutDTO;
         }
 
-        public async Task<UserPatchDTO> PatchUser(int id, UserPatchDTO userPatchDTO)
+        public async Task<UserPatchDTO> PatchUser(string id, UserPatchDTO userPatchDTO)
         {
             if (userPatchDTO == null) { throw new ArgumentNullException(nameof(userPatchDTO)); }
 
             try
             {
-                User user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id).ConfigureAwait(false);
-                user.Password = userPatchDTO.Password;
-
-                await _context.SaveChangesAsync().ConfigureAwait(false);
+                User user = await _userManager.FindByIdAsync(id).ConfigureAwait(false);
+                _ = await _userManager.ChangePasswordAsync(user, userPatchDTO.CurrentPassword, userPatchDTO.NewPassword).ConfigureAwait(false);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(id)) return null;
+                if (await UserExists(id).ConfigureAwait(false) == false) return null;
                 else throw;
             }
 
             return userPatchDTO;
         }
 
-        public async Task<UserDeleteDTO> DeleteUser(int id)
+        public async Task<UserDeleteDTO> DeleteUser(string id)
         {
             var user = await _context.Users
                 .Include(u => u.WatchLists)
@@ -206,7 +205,7 @@ namespace WebAPI.Repositories
             _context.UserFriends.RemoveRange(user.UserFriends);
             _context.Users.Remove(user);
 
-            await _context.SaveChangesAsync().ConfigureAwait(false);
+            await _userManager.DeleteAsync(user).ConfigureAwait(false);
 
             return new UserDeleteDTO()
             {
@@ -214,13 +213,13 @@ namespace WebAPI.Repositories
                 Name = user.Name,
                 LastName = user.LastName,
                 Email = user.Email,
-                Username = user.Username
+                Username = user.UserName
             };
         }
 
-        private bool UserExists(int id)
+        private async Task<bool> UserExists(string id)
         {
-            return _context.Users.Any(e => e.Id == id);
+            return await _userManager.FindByIdAsync(id).ConfigureAwait(false) != null ? true : false;
         }
 
         private Enumerations.Role getRole(string givenRole)

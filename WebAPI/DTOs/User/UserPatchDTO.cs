@@ -8,8 +8,9 @@ namespace WebAPI.DTOs
 {
     public class UserPatchDTO
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         [Required]
-        public string Password { get; set; }
+        public string CurrentPassword { get; set; }
+        public string NewPassword { get; set; }
     }
 }

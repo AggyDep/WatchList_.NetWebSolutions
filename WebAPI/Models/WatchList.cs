@@ -9,7 +9,7 @@ namespace WebAPI.Models
 {
     public class WatchList
     {
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public User User { get; set; }
         public int SerieMovieId { get; set; }
         public SerieMovie SerieMovie { get; set; }

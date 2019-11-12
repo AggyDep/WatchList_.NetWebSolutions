@@ -35,7 +35,7 @@ namespace WebAPI.Controllers
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserDTO>> GetUser(int id)
+        public async Task<ActionResult<UserDTO>> GetUser(string id)
         {
             var user = await _userRepository.GetUser(id).ConfigureAwait(false);
 
@@ -55,7 +55,7 @@ namespace WebAPI.Controllers
 
         // PUT: api/Users/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, UserPutDTO userPutDTO)
+        public async Task<IActionResult> PutUser(string id, UserPutDTO userPutDTO)
         {
             if (userPutDTO == null) { throw new ArgumentNullException(nameof(userPutDTO));  }
 
@@ -70,7 +70,7 @@ namespace WebAPI.Controllers
 
         // PATCH: api/Users/5/ChangePassword
         [HttpPatch("{id}")]
-        public async Task<IActionResult> PatchUser(int id, UserPatchDTO userPatchDTO)
+        public async Task<IActionResult> PatchUser(string id, UserPatchDTO userPatchDTO)
         {
             if(userPatchDTO == null) { throw new ArgumentNullException(nameof(userPatchDTO));  }
 
@@ -85,7 +85,7 @@ namespace WebAPI.Controllers
 
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<UserDeleteDTO>> DeleteUser(int id)
+        public async Task<ActionResult<UserDeleteDTO>> DeleteUser(string id)
         {
             var userResult = await _userRepository.DeleteUser(id).ConfigureAwait(false);
 

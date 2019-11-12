@@ -33,11 +33,11 @@ namespace WebAPI
             //services.AddControllers();
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddIdentityCore<User>().AddEntityFrameworkStores<WatchListContext>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IActorRepository, ActorRepository>();
             services.AddScoped<IGenreRepository, GenreRepository>();
             services.AddScoped<ISerieMovieRepository, SerieMovieRepository>();
-            //services.Add
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +49,8 @@ namespace WebAPI
             }
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

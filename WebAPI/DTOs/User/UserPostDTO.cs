@@ -9,7 +9,7 @@ namespace WebAPI.DTOs
 {
     public class UserPostDTO
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Role { get; set; }
         [Required]
         public string Name { get; set; }

@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,12 +9,21 @@ using WebAPI.Models;
 
 namespace WebAPI.Data
 {
-    public class WatchListContext : DbContext
+    public class WatchListContext : IdentityDbContext
+    <
+            User,
+            IdentityRole,
+            string,
+            IdentityUserClaim<string>,
+            IdentityUserRole<string>,
+            IdentityUserLogin<string>,
+            IdentityRoleClaim<string>,
+            IdentityUserToken<string>
+        >
     {
         public WatchListContext(DbContextOptions<WatchListContext> options) : 
             base(options) { }
 
-        public DbSet<User> Users { get; set; }
         public DbSet<SerieMovie> SerieMovies { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Actor> Actors { get; set; }
@@ -23,9 +34,13 @@ namespace WebAPI.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
+            if (modelBuilder == null) { throw new ArgumentNullException(nameof(modelBuilder)); }
+
             //User - Unique Indexes
             modelBuilder.Entity<User>()
-                .HasIndex(u => new { u.Username } )
+                .HasIndex(u => new { u.UserName } )
                 .IsUnique(true)
                 .HasName("UQ_User_Username");
 

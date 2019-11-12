@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,22 +8,13 @@ using WebAPI.Data;
 
 namespace WebAPI.Models
 {
-    public class User
+    public class User : IdentityUser
     {
-        public int Id { get; set; }
         public Enumerations.Role Role { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
         public string LastName { get; set; }
-        [Required]
-        [DataType(DataType.EmailAddress)]
-        public string Email { get; set; }
-        [Required]
-        public string Username  { get; set; }
-        [Required]
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
         public int Age { get; set; }
         public string Birthday  { get; set; } //DateTime??
         public string About { get; set; }

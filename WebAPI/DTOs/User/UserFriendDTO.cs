@@ -7,9 +7,9 @@ namespace WebAPI.DTOs.User
 {
     public class UserFriendDTO
     {
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public string UserName { get; set; }
-        public int FriendId { get; set; }
+        public string FriendId { get; set; }
         public string FriendName { get; set; }
     }
 }
