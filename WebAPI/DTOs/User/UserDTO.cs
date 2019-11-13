@@ -17,6 +17,7 @@ namespace WebAPI.DTOs
         public string Image { get; set; }
         [Required]
         public string Joined { get; set; }
+        public string Token { get; set; }
         public ICollection<WatchListDTO> WatchListDTOs { get; set; }
         public ICollection<UserFriendDTO> UserFriendsDTOs { get; set; }
     }

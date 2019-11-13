@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,8 @@ using WebAPI.Repositories;
 
 namespace WebAPI.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class GenresController : ControllerBase
@@ -27,6 +30,9 @@ namespace WebAPI.Controllers
         }
 
         // GET: api/Genres
+        /// <summary>
+        /// Get all genres.
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GenreDTO>>> GetGenres()
         {
@@ -34,6 +40,10 @@ namespace WebAPI.Controllers
         }
 
         // GET: api/Genres/5
+        /// <summary>
+        /// Get a specified genre.
+        /// </summary>
+        /// <param name="id"></param>
         [HttpGet("{id}")]
         public async Task<ActionResult<GenreDTO>> GetGenre(int id)
         {
@@ -45,6 +55,10 @@ namespace WebAPI.Controllers
         }
 
         // POST: api/Genres
+        /// <summary>
+        /// Create a new genre.
+        /// </summary>
+        /// <param name="genrePostDTO"></param>
         [HttpPost]
         public async Task<ActionResult<GenrePostDTO>> PostGenre(GenrePostDTO genrePostDTO)
         {
@@ -54,6 +68,11 @@ namespace WebAPI.Controllers
         }
 
         // PUT: api/Genres/5
+        /// <summary>
+        /// Update a specified genre.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="genreDTO"></param>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutGenre(int id, GenreDTO genreDTO)
         {
@@ -69,6 +88,10 @@ namespace WebAPI.Controllers
         }
 
         // DELETE: api/Genres/5
+        /// <summary>
+        /// Delete a specified genre.
+        /// </summary>
+        /// <param name="id"></param>
         [HttpDelete("{id}")]
         public async Task<ActionResult<GenreDTO>> DeleteGenre(int id)
         {

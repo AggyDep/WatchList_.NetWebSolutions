@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,12 +13,15 @@ using WebAPI.Repositories;
 
 namespace WebAPI.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class ActorsController : ControllerBase
     {
         private readonly WatchListContext _context;
         private readonly IActorRepository _actorRepository;
+        
 
         public ActorsController(WatchListContext context, IActorRepository actorRepository)
         {
@@ -26,6 +30,9 @@ namespace WebAPI.Controllers
         }
 
         // GET: api/Actors
+        /// <summary>
+        /// Get all actors.
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ActorDTO>>> GetActors()
         {
@@ -33,6 +40,10 @@ namespace WebAPI.Controllers
         }
 
         // GET: api/Actors/5
+        /// <summary>
+        /// Get a specified actor.
+        /// </summary>
+        /// <param name="id"></param>
         [HttpGet("{id}")]
         public async Task<ActionResult<ActorDTO>> GetActor(int id)
         {
@@ -44,6 +55,10 @@ namespace WebAPI.Controllers
         }
 
         // POST: api/Actors
+        /// <summary>
+        /// Create a new actor.
+        /// </summary>
+        /// <param name="actorPostDTO"></param>
         [HttpPost]
         public async Task<ActionResult<ActorPostDTO>> PostActor(ActorPostDTO actorPostDTO)
         {
@@ -53,6 +68,11 @@ namespace WebAPI.Controllers
         }
 
         // PUT: api/Actors/5
+        /// <summary>
+        /// Update a specified actor.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="actorPutDTO"></param>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutActor(int id, ActorPutDTO actorPutDTO)
         {
@@ -69,6 +89,10 @@ namespace WebAPI.Controllers
 
 
         // DELETE: api/Actors/5
+        /// <summary>
+        /// Delete a specified actor.
+        /// </summary>
+        /// <param name="id"></param>
         [HttpDelete("{id}")]
         public async Task<ActionResult<ActorDeleteDTO>> DeleteActor(int id)
         {
