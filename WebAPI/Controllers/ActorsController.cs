@@ -13,7 +13,7 @@ using WebAPI.Repositories;
 
 namespace WebAPI.Controllers
 {
-    [Authorize(AuthenticationSchemes = "Bearer")]
+    //[Authorize(AuthenticationSchemes = "Bearer")]
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
