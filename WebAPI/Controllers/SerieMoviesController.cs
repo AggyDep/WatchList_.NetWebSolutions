@@ -34,7 +34,7 @@ namespace WebAPI.Controllers
         /// Get all series and/or movies.
         /// </summary>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SerieMovieDTO>>> GetSerieMovies()
+        public async Task<ActionResult<IEnumerable<SerieMovieGetDTO>>> GetSerieMovies()
         {
             return Ok(await _serieMovieRepository.GetSerieMovies().ConfigureAwait(false));
         }

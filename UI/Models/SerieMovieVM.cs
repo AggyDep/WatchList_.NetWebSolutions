@@ -23,8 +23,6 @@ namespace UI.Models
         public int Season { get; set; }
         [JsonPropertyName("synopsis")]
         public string Synopsis { get; set; }
-        [JsonPropertyName("background")]
-        public string Background { get; set; }
         [JsonPropertyName("producer")]
         public string Producer { get; set; }
         [JsonPropertyName("director")]
@@ -35,7 +33,7 @@ namespace UI.Models
         public string Status { get; set; }
         [JsonPropertyName("aired")]
         [Required]
-        public string Aired { get; set; }
+        public string Aired { get; set; } //DateTime??
         [JsonPropertyName("duration")]
         [Required]
         public string Duration { get; set; }

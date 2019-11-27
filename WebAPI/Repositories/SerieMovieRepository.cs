@@ -19,10 +19,10 @@ namespace WebAPI.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<SerieMovieDTO>> GetSerieMovies()
+        public async Task<IEnumerable<SerieMovieGetDTO>> GetSerieMovies()
         {
             return await _context.SerieMovies.Include(s => s.SerieMovieActors)
-               .Include(s => s.SerieMovieGenres).Select(s => new SerieMovieDTO()
+               .Include(s => s.SerieMovieGenres).Select(s => new SerieMovieGetDTO()
                {
                    Id = s.Id,
                    IsSerie = s.IsSerie,
@@ -30,24 +30,11 @@ namespace WebAPI.Repositories
                    Episode = s.Episode,
                    Season = s.Season,
                    Synopsis = s.Synopsis,
+                   Director = s.Director,
                    Duration = s.Duration,
                    Score = s.Score,
-                   Member = s.Member,
-                   Image = s.Image,
-                   SerieMovieActorDTOs = s.SerieMovieActors.Select(a => new SerieMovieActorDTO()
-                   {
-                       SerieMovieId = s.Id,
-                       SerieMovieName = s.Name,
-                       ActorId = a.ActorId,
-                       ActorName = a.Actor.FullName
-                   }).ToList(),
-                   SerieMovieGenreDTOs = s.SerieMovieGenres.Select(g => new SerieMovieGenreDTO()
-                   {
-                       SerieMovieId = s.Id,
-                       SerieMovieName = s.Name,
-                       GenreId = g.GenreId,
-                       GenreName = g.Genre.GenreName
-                   }).ToList()
+                   Ranking = s.Ranking,
+                   Image = s.Image
                })
                .AsNoTracking()
                .ToListAsync()

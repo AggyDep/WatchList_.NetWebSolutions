@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebAPI.DTOs.SerieMovie
 {
-    public class SerieMovieDTO
+    public class SerieMovieGetDTO
     {
         public int Id { get; set; }
         [Required]
@@ -16,20 +16,20 @@ namespace WebAPI.DTOs.SerieMovie
         public int Episode { get; set; }
         public int Season { get; set; }
         public string Synopsis { get; set; }
-        public string Producer { get; set; }
+        //public string Producer { get; set; }
         [Required]
         public string Director { get; set; }
-        [Required]
-        public string Status { get; set; }
-        [Required]
-        public string Aired { get; set; } //DateTime??
+        //[Required]
+        //public string Status { get; set; }
+        //[Required]
+        //public string Aired { get; set; } //DateTime??
         [Required]
         public string Duration { get; set; }
         public float Score { get; set; }
         public int Ranking { get; set; }
-        public int Member { get; set; }
+        //public int Member { get; set; }
         public string Image { get; set; }
-        public ICollection<SerieMovieGenreDTO> SerieMovieGenreDTOs { get; set; }
-        public ICollection<SerieMovieActorDTO> SerieMovieActorDTOs { get; set; }
+        //    public ICollection<SerieMovieGenreDTO> SerieMovieGenreDTOs { get; set; }
+        //    public ICollection<SerieMovieActorDTO> SerieMovieActorDTOs { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿@model UI.Models.SerieMovieVM
 
 @{
-    ViewData["Title"] = "Edit"; //Serie or movie door isSerie
+    ViewData["Title"] = "Edit";
 }
 
 <h1>Edit</h1>
@@ -13,10 +13,10 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @*<div class="form-group">
-            <label asp-for="Id" class="control-label"></label>
-            <input asp-for="Id" class="form-control" />
-            <span asp-validation-for="Id" class="text-danger"></span>
-        </div>*@
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>*@
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="IsSerie" /> @Html.DisplayNameFor(model => model.IsSerie)
@@ -27,7 +27,6 @@
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            @*Episode en season depending on isSerie!!*@
             <div class="form-group">
                 <label asp-for="Episode" class="control-label"></label>
                 <input asp-for="Episode" class="form-control" />
@@ -44,11 +43,6 @@
                 <span asp-validation-for="Synopsis" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Background" class="control-label"></label>
-                <input asp-for="Background" class="form-control" />
-                <span asp-validation-for="Background" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Producer" class="control-label"></label>
                 <input asp-for="Producer" class="form-control" />
                 <span asp-validation-for="Producer" class="text-danger"></span>
@@ -58,7 +52,6 @@
                 <input asp-for="Director" class="form-control" />
                 <span asp-validation-for="Director" class="text-danger"></span>
             </div>
-            @*Status depending on isSerie!!*@
             <div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
                 <input asp-for="Status" class="form-control" />

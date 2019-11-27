@@ -20,7 +20,7 @@ namespace UI.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            IEnumerable<SerieMovieVM> serieMovies;
+            IEnumerable<SerieMovieGetVM> serieMovies;
 
             var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:55169/api/SerieMovies");
             request.Headers.Add("Accept", "application/json");
@@ -32,11 +32,11 @@ namespace UI.Controllers
             if (response.IsSuccessStatusCode)
             {
                 using var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                serieMovies = await JsonSerializer.DeserializeAsync<IEnumerable<SerieMovieVM>>(responseStream);
+                serieMovies = await JsonSerializer.DeserializeAsync<IEnumerable<SerieMovieGetVM>>(responseStream);
             }
             else
             {
-                serieMovies = Array.Empty<SerieMovieVM>();
+                serieMovies = Array.Empty<SerieMovieGetVM>();
             }
 
             return View(serieMovies);
