@@ -37,7 +37,7 @@ namespace WebAPI.Controllers
         /// Get all users.
         /// </summary>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<UserGetDTO>>> GetUsers()
         {
             return Ok(await _userRepository.GetUsers().ConfigureAwait(false));
         }

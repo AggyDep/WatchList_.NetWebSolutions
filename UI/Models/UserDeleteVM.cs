@@ -11,6 +11,9 @@ namespace UI.Models
     {
         [JsonPropertyName("id")]
         public string Id { get; set; }
+        [JsonPropertyName("username")]
+        [Required]
+        public string Username { get; set; }
         [JsonPropertyName("name")]
         [Required]
         public string Name { get; set; }
@@ -20,8 +23,5 @@ namespace UI.Models
         [JsonPropertyName("email")]
         [Required]
         public string Email { get; set; }
-        [JsonPropertyName("username")]
-        [Required]
-        public string Username { get; set; }
     }
 }

@@ -68,9 +68,9 @@ namespace UI.Controllers
 
         public async Task<IActionResult> Create()
         {
-            if (!HttpContext.Session.Keys.Contains("users"))
+            if (!HttpContext.Session.Keys.Contains("actors"))
             {
-                using var request = new HttpRequestMessage(HttpMethod.Get, "https://localhost:44367/api/users");
+                using var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:55169/api/Actors");
                 request.Headers.Add("Accept", "application/json");
 
                 var client = _httpClientFactory.CreateClient();
@@ -80,7 +80,23 @@ namespace UI.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     string responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    HttpContext.Session.SetString("users", responseString);
+                    HttpContext.Session.SetString("actors", responseString);
+                }
+            }
+
+            if (!HttpContext.Session.Keys.Contains("genres"))
+            {
+                using var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:55169/api/Genres");
+                request.Headers.Add("Accept", "application/json");
+
+                var client = _httpClientFactory.CreateClient();
+
+                var response = await client.SendAsync(request).ConfigureAwait(false);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    HttpContext.Session.SetString("genres", responseString);
                 }
             }
 
@@ -91,13 +107,21 @@ namespace UI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(SerieMoviePostVM serieMoviePost)
         {
+            if (serieMoviePost.SerieMovieGenreDTOs == null)
+            {
+                serieMoviePost.SerieMovieGenreDTOs = new SerieMovieGenreVM[0];
+            }
+            if (serieMoviePost.SerieMovieActorDTOs == null)
+            {
+                serieMoviePost.SerieMovieActorDTOs = new SerieMovieActorVM[0];
+            }
             if (ModelState.IsValid)
             {
                 var client = _httpClientFactory.CreateClient();
 
                 var serieMovieContent = new StringContent(JsonSerializer.Serialize(serieMoviePost), Encoding.UTF8, "application/json");
 
-                HttpResponseMessage httpResponseMessage = await client.PostAsync(new Uri("https://localhost:44367/api/addresses"), serieMovieContent).ConfigureAwait(false);
+                HttpResponseMessage httpResponseMessage = await client.PostAsync(new Uri("http://localhost:55169/api/SerieMovies"), serieMovieContent).ConfigureAwait(false);
 
                 if (httpResponseMessage.IsSuccessStatusCode)
                 {
@@ -110,6 +134,38 @@ namespace UI.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
+            if (!HttpContext.Session.Keys.Contains("actors"))
+            {
+                using var actorsRequest = new HttpRequestMessage(HttpMethod.Get, "http://localhost:55169/api/Actors");
+                actorsRequest.Headers.Add("Accept", "application/json");
+
+                var actorsClient = _httpClientFactory.CreateClient();
+
+                var actorsResponse = await actorsClient.SendAsync(actorsRequest).ConfigureAwait(false);
+
+                if (actorsResponse.IsSuccessStatusCode)
+                {
+                    string responseString = await actorsResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    HttpContext.Session.SetString("actors", responseString);
+                }
+            }
+
+            if (!HttpContext.Session.Keys.Contains("genres"))
+            {
+                using var genresRequest = new HttpRequestMessage(HttpMethod.Get, "http://localhost:55169/api/Genres");
+                genresRequest.Headers.Add("Accept", "application/json");
+
+                var genresClient = _httpClientFactory.CreateClient();
+
+                var genresResponse = await genresClient.SendAsync(genresRequest).ConfigureAwait(false);
+
+                if (genresResponse.IsSuccessStatusCode)
+                {
+                    string responseString = await genresResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    HttpContext.Session.SetString("genres", responseString);
+                }
+            }
+
             SerieMovieVM serieMovie;
 
             var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:55169/api/SerieMovies/" + id);

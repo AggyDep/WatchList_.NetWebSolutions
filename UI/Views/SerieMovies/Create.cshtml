@@ -1,22 +1,27 @@
 ﻿@model UI.Models.SerieMoviePostVM
+@using System.Text.Json;
+@using UI.Models;
+@using Microsoft.AspNetCore.Http
 
 @{
     ViewData["Title"] = "Create a serie or movie";
+    List<ActorVM> actors = JsonSerializer.Deserialize<List<ActorVM>>(@Context.Session.GetString("actors"));
+    List<GenreVM> genres = JsonSerializer.Deserialize<List<GenreVM>>(@Context.Session.GetString("genres"));
 }
 
 <h1>Create</h1>
 
-<h4>SerieMoviePostVM</h4>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @*<div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
-            </div>*@
+            <label asp-for="Id" class="control-label"></label>
+            <input asp-for="Id" class="form-control" />
+            <span asp-validation-for="Id" class="text-danger"></span>
+        </div>*@
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="IsSerie" /> @Html.DisplayNameFor(model => model.IsSerie)
@@ -46,6 +51,18 @@
                 <label asp-for="Duration" class="control-label"></label>
                 <input asp-for="Duration" class="form-control" />
                 <span asp-validation-for="Duration" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <h2>Actors</h2>
+                @foreach (var actor in actors)
+                {<input type="checkbox" asp-for="SerieMovieActorDTOs" name="@actor.FullName" value="@actor.Id"> @actor.FullName<br>}
+                <span asp-validation-for="SerieMovieActorDTOs" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <h2>Genres</h2>
+                @foreach (var genre in genres)
+                {<input type="checkbox" asp-for="SerieMovieGenreDTOs" name="@genre.GenreName" value="@genre.Id"> @genre.GenreName<br>}
+                <span asp-validation-for="SerieMovieGenreDTOs" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

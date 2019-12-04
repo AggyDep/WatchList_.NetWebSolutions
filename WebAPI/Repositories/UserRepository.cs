@@ -22,14 +22,13 @@ namespace WebAPI.Repositories
             _userManager = userManager;
         }
 
-        public async Task<IEnumerable<UserDTO>> GetUsers()
+        public async Task<IEnumerable<UserGetDTO>> GetUsers()
         {
             return await _context.Users.Include(u => u.WatchLists).Include(u => u.UserFriends)
-                .Select(u => new UserDTO()
+                .Select(u => new UserGetDTO()
                 {
                     Id = u.Id,
                     Username = u.UserName,
-                    About = u.About,
                     Image = u.Image,
                     Joined = u.Joined,
                     WatchListDTOs = u.WatchLists.Select(w => new WatchListDTO()
@@ -62,6 +61,11 @@ namespace WebAPI.Repositories
                 {
                     Id = u.Id,
                     Username = u.UserName,
+                    Name = u.Name,
+                    LastName = u.LastName,
+                    Email = u.Email,
+                    Age = u.Age,
+                    Birthday = u.Birthday,
                     About = u.About,
                     Image = u.Image,
                     Joined = u.Joined,
@@ -122,6 +126,7 @@ namespace WebAPI.Repositories
                 user.Email = userPutDTO.Email;
                 user.UserName = userPutDTO.Username;
                 user.Birthday = userPutDTO.Birthday;
+                user.Age = (Int32.Parse(DateTime.Now.Year.ToString()) - Int32.Parse(userPutDTO.Birthday.Substring(userPutDTO.Birthday.Length - 4)));
                 user.About = userPutDTO.About;
                 user.Image = userPutDTO.Image;
 

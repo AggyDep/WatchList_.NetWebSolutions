@@ -4,22 +4,17 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace UI.Models
+namespace WebAPI.DTOs.User
 {
-    public class UserPostVM
+    public class UserGetDTO
     {
         public string Id { get; set; }
-        public string Role { get; set; }
         [Required]
         public string Username { get; set; }
+        public string Image { get; set; }
         [Required]
-        public string Name { get; set; }
-        [Required]
-        public string LastName { get; set; }
-        [Required]
-        public string Email { get; set; }
-        [Required]
-        public string Password { get; set; }
         public string Joined { get; set; }
+        public ICollection<WatchListDTO> WatchListDTOs { get; set; }
+        public ICollection<UserFriendDTO> UserFriendsDTOs { get; set; }
     }
 }

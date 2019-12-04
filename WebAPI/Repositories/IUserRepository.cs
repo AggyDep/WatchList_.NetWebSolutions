@@ -4,12 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebAPI.DTOs;
 using Microsoft.EntityFrameworkCore;
+using WebAPI.DTOs.User;
 
 namespace WebAPI.Repositories
 {
     public interface IUserRepository
     {
-        Task<IEnumerable<UserDTO>> GetUsers();
+        Task<IEnumerable<UserGetDTO>> GetUsers();
         Task<UserDTO> GetUser(string id);
         Task<UserPostDTO> PostUser(UserPostDTO userPostDTO);
         Task<UserPutDTO> PutUser(string id, UserPutDTO userPutDTO);

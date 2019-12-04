@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace UI.Models
 {
@@ -14,18 +12,30 @@ namespace UI.Models
         [JsonPropertyName("username")]
         [Required]
         public string Username { get; set; }
+        [JsonPropertyName("name")]
+        [Required]
+        public string Name { get; set; }
+        [JsonPropertyName("lastName")]
+        [Required]
+        public string LastName { get; set; }
+        [JsonPropertyName("email")]
+        [Required]
+        public string Email { get; set; }
+        [JsonPropertyName("age")]
+        public int Age { get; set; }
+        [JsonPropertyName("birthday")]
+        public string Birthday { get; set; }
         [JsonPropertyName("about")]
         public string About { get; set; }
         [JsonPropertyName("image")]
         public string Image { get; set; }
         [JsonPropertyName("joined")]
-        [Required]
         public string Joined { get; set; }
         [JsonPropertyName("token")]
         public string Token { get; set; }
         [JsonPropertyName("watchListDTOs")]
-        public ICollection<WatchListVM> WatchLists { get; set; }
+        public ICollection<WatchListVM> WatchListDTOs { get; set; }
         [JsonPropertyName("userFriendsDTOs")]
-        public ICollection<UserFriendVM> UserFriends { get; set; }
+        public ICollection<UserFriendVM> UserFriendsDTOs { get; set; }
     }
 }

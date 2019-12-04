@@ -21,7 +21,7 @@ namespace UI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            IEnumerable<UserVM> users;
+            IEnumerable<UserGetVM> users;
 
             var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:55169/api/Users");
             request.Headers.Add("Accept", "application/json");
@@ -33,11 +33,11 @@ namespace UI.Controllers
             if (response.IsSuccessStatusCode)
             {
                 using var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                users = await JsonSerializer.DeserializeAsync<IEnumerable<UserVM>>(responseStream);
+                users = await JsonSerializer.DeserializeAsync<IEnumerable<UserGetVM>>(responseStream);
             }
             else
             {
-                users = Array.Empty<UserVM>();
+                users = Array.Empty<UserGetVM>();
             }
 
             return View(users);

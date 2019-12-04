@@ -13,9 +13,16 @@ namespace WebAPI.DTOs
         public string Id { get; set; }
         [Required]
         public string Username { get; set; }
+        [Required]
+        public string Name { get; set; }
+        [Required]
+        public string LastName { get; set; }
+        [Required]
+        public string Email { get; set; }
+        public int Age { get; set; }
+        public string Birthday { get; set; }
         public string About { get; set; }
         public string Image { get; set; }
-        [Required]
         public string Joined { get; set; }
         public string Token { get; set; }
         public ICollection<WatchListDTO> WatchListDTOs { get; set; }
