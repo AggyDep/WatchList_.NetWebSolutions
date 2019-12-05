@@ -155,5 +155,45 @@ namespace WebAPI.Controllers
 
             return userResult;
         }
+
+        // POST: api/Users/login
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // more details see https://aka.ms/RazorPagesCRUD.
+        [AllowAnonymous]
+        [HttpPost("login")]
+        public async Task<ActionResult<UserDTO>> Login(UserLoginDTO userLoginDTO)
+        {
+            var userResult = await _userService.Authenticate(userLoginDTO.UserName, userLoginDTO.Password).ConfigureAwait(false);
+
+            if (userResult == null)
+            {
+                return BadRequest(new { message = "Username or password is incorrect" });
+            }
+
+            return CreatedAtAction("GetUserDetails", new { id = userResult.Id }, userResult);
+        }
+
+        // POST: api/Users/register
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // more details see https://aka.ms/RazorPagesCRUD.
+        [AllowAnonymous]
+        [HttpPost("register")]
+        public async Task<ActionResult<UserDTO>> Register(UserRegisterDTO userRegisterDTO)
+        {
+            var userResult = await _userRepository.RegisterUser(userRegisterDTO).ConfigureAwait(false);
+
+            if (userResult == null)
+            {
+                return BadRequest(new { message = "Registration failed" });
+            }
+
+            UserLoginDTO userLoginDTO = new UserLoginDTO
+            {
+                UserName = userRegisterDTO.Username,
+                Password = userRegisterDTO.Password
+            };
+
+            return await Login(userLoginDTO).ConfigureAwait(false);
+        }
     }
 }

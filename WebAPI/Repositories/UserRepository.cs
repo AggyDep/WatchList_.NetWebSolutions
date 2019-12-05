@@ -222,6 +222,33 @@ namespace WebAPI.Repositories
             };
         }
 
+        public async Task<UserRegisterDTO> RegisterUser(UserRegisterDTO userRegisterDTO)
+        {
+            if (userRegisterDTO == null) { throw new ArgumentNullException(nameof(userRegisterDTO)); }
+
+            User user = new User
+            {
+                UserName = userRegisterDTO.Username,
+                Name = userRegisterDTO.Name,
+                LastName = userRegisterDTO.LastName,
+                Email = userRegisterDTO.Email
+            };
+
+            var registerResult = await _userManager.CreateAsync(user, userRegisterDTO.Password).ConfigureAwait(false);
+
+            if (registerResult.Succeeded)
+            {
+                userRegisterDTO.Id = user.Id;
+
+                // Assign default user role to user
+                //await AssignRole(user).ConfigureAwait(false);
+
+                return userRegisterDTO;
+            }
+
+            return null;
+        }
+
         private async Task<bool> UserExists(string id)
         {
             return await _userManager.FindByIdAsync(id).ConfigureAwait(false) != null ? true : false;

@@ -1,0 +1,35 @@
+﻿@{
+    string FullName = null;
+    string Id = null;
+
+    if (TempData.ContainsKey("StateData"))
+    {
+        Dictionary<string, string> stateData = (Dictionary<string, string>)TempData["StateData"];
+
+        FullName = stateData["_FullName"];
+        Id = stateData["_Id"];
+    }
+
+    TempData.Keep();
+}
+
+    <ul class="navbar-nav" style="margin-left: 40%;">
+        @if (FullName == null)
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-route="login">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-route="register">Register</a>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Details" asp-route-id="@Id">Welkom @FullName</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-route="logout">Logout</a>
+            </li>
+        }
+    </ul>

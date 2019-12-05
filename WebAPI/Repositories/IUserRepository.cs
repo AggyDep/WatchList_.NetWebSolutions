@@ -16,5 +16,6 @@ namespace WebAPI.Repositories
         Task<UserPutDTO> PutUser(string id, UserPutDTO userPutDTO);
         Task<UserPatchDTO> PatchUser(string id, UserPatchDTO userPatchDTO);
         Task<UserDeleteDTO> DeleteUser(string id);
+        Task<UserRegisterDTO> RegisterUser(UserRegisterDTO userRegisterDTO);
     }
 }

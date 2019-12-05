@@ -36,7 +36,7 @@ namespace WebAPI.Services
 
             // return null if user not found
             if (user == null)
-            {
+            {   
                 return null;
             }
 
