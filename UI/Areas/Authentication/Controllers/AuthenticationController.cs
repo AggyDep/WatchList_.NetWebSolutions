@@ -40,7 +40,7 @@ namespace UI.Areas.Authentication.Controllers
 
             if (ModelState.IsValid)
             {
-                using var client = _httpClientFactory.CreateClient("HolidayRequestsWebApi");
+                using var client = _httpClientFactory.CreateClient("WebApi");
 
                 var userContent = new StringContent(JsonSerializer.Serialize(userLoginVM), Encoding.UTF8, "application/json");
 
@@ -91,7 +91,7 @@ namespace UI.Areas.Authentication.Controllers
 
             if (ModelState.IsValid)
             {
-                using var client = _httpClientFactory.CreateClient("HolidayRequestsWebApi");
+                using var client = _httpClientFactory.CreateClient("WebApi");
 
                 var userContent = new StringContent(JsonSerializer.Serialize(userRegisterVM), Encoding.UTF8, "application/json");
 

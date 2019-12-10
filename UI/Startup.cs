@@ -2,11 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UI.Extensions;
+//using UI.Handlers;
+using UI.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using UI.Handlers;
 
 namespace UI
 {
@@ -22,6 +28,19 @@ namespace UI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+            var appSettings = appSettingsSection.Get<AppSettings>();
+
+            // HttpClient
+            // ==========
+            services.AddTransient<ValidateHeaderHandler>();
+            services.AddHttpClient("WebApi", c =>
+            {
+                c.BaseAddress = new Uri("http://localhost:55169/api/");
+                c.DefaultRequestHeaders.Add("Accept", "application/json");
+            }).AddHttpMessageHandler<ValidateHeaderHandler>();
+
             // Start session state configuration
             services.AddDistributedMemoryCache();
 
@@ -37,10 +56,12 @@ namespace UI
 
             services.AddHttpClient();
             services.AddControllersWithViews();
+            services.AddHttpContextAccessor();
+            services.AddSingleton<IStateHelper, StateHelper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IStateHelper stateHelper)
         {
             if (env.IsDevelopment())
             {
@@ -53,6 +74,15 @@ namespace UI
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSession();
+
+            app.Use(async delegate (HttpContext context, Func<Task> next)
+            {
+                if (context.Request.GetStateData("StateData") != null)
+                {
+                    stateHelper.SetState(context.Request.GetStateData("StateData"));
+                }
+                await next.Invoke().ConfigureAwait(false);
+            });
 
             app.UseRouting();
 
