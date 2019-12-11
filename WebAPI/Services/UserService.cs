@@ -62,7 +62,7 @@ namespace WebAPI.Services
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            UserDTO userDTO = await _userRepository.GetUser(user.Id).ConfigureAwait(false);
+            UserDTO userDTO = await _userRepository.GetUserDetails(user.Id).ConfigureAwait(false);
 
             userDTO.Token = tokenHandler.WriteToken(token);
 

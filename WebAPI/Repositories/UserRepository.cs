@@ -54,7 +54,7 @@ namespace WebAPI.Repositories
                 .ConfigureAwait(false);
         }
 
-        public async Task<UserDTO> GetUser(string id)
+        public async Task<UserDTO> GetUserDetails(string id)
         {
             return await _context.Users.Include(u => u.WatchLists).Include(u => u.UserFriends)
                 .Select(u => new UserDTO()
@@ -231,7 +231,8 @@ namespace WebAPI.Repositories
                 UserName = userRegisterDTO.Username,
                 Name = userRegisterDTO.Name,
                 LastName = userRegisterDTO.LastName,
-                Email = userRegisterDTO.Email
+                Email = userRegisterDTO.Email,
+                Joined = DateTime.Now.ToString("dd\\/MM\\/yyyy")
             };
 
             var registerResult = await _userManager.CreateAsync(user, userRegisterDTO.Password).ConfigureAwait(false);
@@ -247,6 +248,66 @@ namespace WebAPI.Repositories
             }
 
             return null;
+        }
+
+        public async Task<UserDTO> GetUserWithWatchList(string userId)
+        {
+            return await _context.Users.Include(u => u.WatchLists)
+                .Select(u => new UserDTO()
+                {
+                    Id = u.Id,
+                    Username = u.UserName,
+                    WatchListDTOs = u.WatchLists.Select(w => new WatchListDTO()
+                    {
+                        UserId = u.Id,
+                        UserName = u.UserName,
+                        SerieMovieId = w.SerieMovieId,
+                        SerieMovieName = w.SerieMovie.Name,
+                        Status = w.Status,
+                        Score = w.Score,
+                        Episode = w.Episode
+                    }).ToList()
+                })
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u => u.Id == userId)
+                .ConfigureAwait(false);
+        }
+
+        public async Task<UserPutDTO> AddToWatchListOfUser(string id, UserPutDTO userPutDTO)
+        {
+            if (userPutDTO == null) { throw new ArgumentNullException(nameof(userPutDTO)); }
+
+            try
+            {
+                User user = await _context.Users.Include(u => u.WatchLists)
+                    .FirstOrDefaultAsync(u => u.Id == id).ConfigureAwait(false);
+                user.UserName = userPutDTO.Username;
+
+                _context.WatchLists.RemoveRange(user.WatchLists);
+
+                foreach (WatchListDTO watchListDTO in userPutDTO.WatchListDTOs)
+                {
+                    SerieMovie serieMovie = _context.SerieMovies.Find(watchListDTO.SerieMovieId);
+                    user.WatchLists.Add(new WatchList()
+                    {
+                        UserId = user.Id,
+                        User = user,
+                        SerieMovieId = serieMovie.Id,
+                        SerieMovie = serieMovie,
+                        Status = watchListDTO.Status,
+                        Score = watchListDTO.Score,
+                        Episode = watchListDTO.Episode
+                    });
+                }
+
+                await _userManager.UpdateAsync(user).ConfigureAwait(false);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (await UserExists(id).ConfigureAwait(false) == false) return null;
+                else throw;
+            }
+            return userPutDTO;
         }
 
         private async Task<bool> UserExists(string id)
