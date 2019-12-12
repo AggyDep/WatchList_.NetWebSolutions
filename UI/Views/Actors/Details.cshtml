@@ -1,7 +1,18 @@
 ﻿@model UI.Models.ActorVM
 
 @{
-    ViewData["Title"] = "Actor Details"; //Fullname here
+    ViewData["Title"] = @Model.FullName;
+
+    string Role = null;
+
+    if (TempData.ContainsKey("StateData"))
+    {
+        Dictionary<string, string> stateData = (Dictionary<string, string>)TempData["StateData"];
+
+        Role = stateData["_Role"];
+    }
+
+    TempData.Keep();
 }
 
 <h1>Details</h1>
@@ -10,12 +21,6 @@
     <h4>@Html.DisplayFor(model => model.FullName)</h4>
     <hr />
     <dl class="row">
-        @*<dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>*@
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FullName)
         </dt>
@@ -56,6 +61,9 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>  |   
+    @if (Role == "1")
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a><p> | </p>
+    }
     <a asp-action="Index">Back to List</a>
 </div>

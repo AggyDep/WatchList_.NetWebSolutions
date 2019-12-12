@@ -19,7 +19,7 @@ namespace UI.Helpers
         const string StateFullName = "_FullName";
         const string StateFirstName = "_FirstName";
         const string StateId = "_Id";
-        const string StateRoles = "_Roles";
+        const string StateRole = "_Role";
 
         private readonly AppSettings _appSettings;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -74,17 +74,6 @@ namespace UI.Helpers
             {
                 var user = handler.ValidateToken(jwt, validationParameters, out SecurityToken validatedToken);
                 var token = handler.ReadJwtToken(jwt);
-                var claims = token.Claims;
-
-                List<string> roles = new List<string>();
-
-                foreach (Claim claim in claims)
-                {
-                    if (claim.Type == "role")
-                    {
-                        roles.Add(claim.Value);
-                    }
-                }
 
                 Dictionary<string, string> stateData = new Dictionary<string, string>
                 {
@@ -93,7 +82,7 @@ namespace UI.Helpers
                     { StateFullName, authenticatedUser.Name + " " + authenticatedUser.LastName },
                     { StateId, authenticatedUser.Id },
                     { StateFirstName, authenticatedUser.Name },
-                    { StateRoles, string.Join(",", roles.ToArray()) }
+                    { StateRole, authenticatedUser.Role.ToString() }
                 };
 
                 SetTempData(stateData);

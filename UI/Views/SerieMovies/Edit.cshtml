@@ -97,14 +97,14 @@
             <div class="form-group">
                 <h2>Actors</h2>
                 @foreach (var actor in actors)
-                {<input type="checkbox" asp-for="SerieMovieActorDTOs" name="@actor.FullName" value="@actor.Id"> @actor.FullName<br>}
-                <span asp-validation-for="SerieMovieActorDTOs" class="text-danger"></span>
+                {<input type="checkbox" name="@actor.FullName" value="@actor.Id"> @actor.FullName<br>}
+                <span class="text-danger"></span>
             </div>
             <div class="form-group">
                 <h2>Genres</h2>
                 @foreach (var genre in genres)
-                {<input type="checkbox" asp-for="SerieMovieGenreDTOs" name="@genre.GenreName" value="@genre.Id"> @genre.GenreName<br>}
-                <span asp-validation-for="SerieMovieGenreDTOs" class="text-danger"></span>
+                {<input type="checkbox" name="@genre.GenreName" value="@genre.Id"> @genre.GenreName<br>}
+                <span class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

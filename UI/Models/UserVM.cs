@@ -9,6 +9,8 @@ namespace UI.Models
     {
         [JsonPropertyName("id")]
         public string Id { get; set; }
+        [JsonPropertyName("role")]
+        public int Role { get; set; }
         [JsonPropertyName("username")]
         [Required]
         public string Username { get; set; }

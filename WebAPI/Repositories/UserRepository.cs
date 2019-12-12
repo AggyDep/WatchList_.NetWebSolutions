@@ -60,6 +60,7 @@ namespace WebAPI.Repositories
                 .Select(u => new UserDTO()
                 {
                     Id = u.Id,
+                    Role = u.Role,
                     Username = u.UserName,
                     Name = u.Name,
                     LastName = u.LastName,

@@ -90,18 +90,6 @@ namespace WebAPI.Controllers
             return NoContent();
         }
 
-        //// POST: api/Users/register
-        ///// <summary>
-        ///// Register a new user.
-        ///// </summary>
-        ///// <param name="userPostDTO"></param>
-        //[AllowAnonymous]
-        //[HttpPost("register")]
-        //public async Task<ActionResult<UserPostDTO>> RegisterUser(UserPostDTO userPostDTO)
-        //{
-        //    return await this.PostUser(userPostDTO);
-        //}
-
         // POST: api/Users/authenticate
         /// <summary>
         /// Authenticate an existing user.

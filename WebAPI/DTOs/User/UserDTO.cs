@@ -11,6 +11,7 @@ namespace WebAPI.DTOs
     public class UserDTO
     {
         public string Id { get; set; }
+        public Enumerations.Role Role { get; set; }
         [Required]
         public string Username { get; set; }
         [Required]
