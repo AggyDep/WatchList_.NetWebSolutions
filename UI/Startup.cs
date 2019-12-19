@@ -8,11 +8,13 @@ using UI.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using UI.Handlers;
+using Microsoft.AspNetCore.Mvc.Razor;
 
 namespace UI
 {
@@ -28,20 +30,19 @@ namespace UI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var appSettingsSection = Configuration.GetSection("AppSettings");
-            services.Configure<AppSettings>(appSettingsSection);
-            var appSettings = appSettingsSection.Get<AppSettings>();
-
-            // HttpClient
-            // ==========
+            // Start HttpClient
+            // ================
             services.AddTransient<ValidateHeaderHandler>();
             services.AddHttpClient("WebApi", c =>
             {
                 c.BaseAddress = new Uri("http://localhost:55169/api/");
                 c.DefaultRequestHeaders.Add("Accept", "application/json");
             }).AddHttpMessageHandler<ValidateHeaderHandler>();
+            // End HttpClient
+            // ==============
 
             // Start session state configuration
+            // =================================
             services.AddDistributedMemoryCache();
 
             services.AddSession(options =>
@@ -53,11 +54,38 @@ namespace UI
                 options.Cookie.IsEssential = true;
             });
             // End session state configuration
+            // ===============================
 
-            services.AddHttpClient();
-            services.AddControllersWithViews();
             services.AddHttpContextAccessor();
+
+            // Start Localization
+            // ==================
+
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            services.AddControllersWithViews()
+                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix, options => options.ResourcesPath = "Resources")
+                .AddDataAnnotationsLocalization();
+
+            // End Localization
+            // ================
+
+            // Start Configure strongly typed settings objects
+            // ===============================================
+
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+            var appSettings = appSettingsSection.Get<AppSettings>();
+
+            // End Configure strongly typed settings objects
+            // =============================================
+
+            // Start Custom Services
+            // =====================
+
             services.AddSingleton<IStateHelper, StateHelper>();
+
+            // End Custom Services
+            // ===================
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
