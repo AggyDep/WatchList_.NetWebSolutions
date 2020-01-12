@@ -1,0 +1,50 @@
+﻿@using System.Text.Json;
+@using UI.Models.Movie;
+@using Microsoft.AspNetCore.Http
+
+@{
+    ViewData["Title"] = "Home Page";
+
+    string FullName = null;
+    string Id = null;
+    string Role = null;
+
+    if (TempData.ContainsKey("StateData"))
+    {
+        Dictionary<string, string> stateData = (Dictionary<string, string>)TempData["StateData"];
+
+        FullName = stateData["_FullName"];
+        Id = stateData["_Id"];
+        Role = stateData["_Role"];
+    }
+
+    TempData.Keep();
+    List<MovieVM> movies = JsonSerializer.Deserialize<List<MovieVM>>(@Context.Session.GetString("movies"));
+}
+
+<div class="text-center">
+    @if (FullName == null)
+    {
+        <h1 class="display-4">Welcome guest</h1>
+    }
+    else
+    {
+        <h1 class="display-4">Welcome @FullName</h1>
+    }
+<div style="display: flex; flex-flow: wrap; flex-direction: row; justify-content: space-between; margin: 6.5% 5% 5% 5%;">
+    @foreach (var movie in movies)
+    {
+        <div style="width: 45%; display: flex; flex-direction: row; margin-bottom: 5%; background-color: #f7f7f7; padding: 0.5px">
+            <img src="@movie.Image" alt="@movie.Name pic"
+                 class="img-responsive" style="max-height: 200px;">
+            <div style="display: flex; flex-flow: column; margin: auto;">
+                <h3>@movie.Name</h3>
+                <p>@movie.Director</p>
+                @if (FullName != null)
+                {
+            <input type="submit" value="Add to watchlist" class="btn btn-primary" />
+                }
+                <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" style="margin-top: 5%;">Movie details</a>
+            </div>
+        </div>
+    }

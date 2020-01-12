@@ -1,0 +1,65 @@
+﻿@model UI.Models.Actor.ActorVM
+
+@{
+    ViewData["Title"] = @Model.FullName;
+
+    string Role = null;
+
+    if (TempData.ContainsKey("StateData"))
+    {
+        Dictionary<string, string> stateData = (Dictionary<string, string>)TempData["StateData"];
+
+        Role = stateData["_Role"];
+    }
+
+    TempData.Keep();
+}
+
+   
+<h1>@Html.DisplayFor(model => model.FullName)</h1>
+
+<div style="float: left; margin-right: 4%; margin-top: 3.5%;">
+    <img src="@Model.Image" alt="@Model.FullName picture"
+         class="img-responsive" style="max-height: 200px">
+</div>
+<div style="margin-top: 3.5%;">
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FullName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Birthday)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Birthday)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Biography)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Biography)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Website)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Website)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Image)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Image)
+        </dd>
+    </dl>
+</div>
+<div>
+    @if (Role == "1")
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a><p> | </p>
+    }
+    <a asp-action="Index">Back to List</a>
+</div>

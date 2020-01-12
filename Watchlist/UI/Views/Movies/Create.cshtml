@@ -1,0 +1,67 @@
+﻿@model UI.Models.Movie.MoviePostVM
+@using System.Text.Json;
+@using UI.Models.Actor;
+@using UI.Models.Genre;
+@using Microsoft.AspNetCore.Http
+
+@{
+    ViewData["Title"] = "Create a Movie";
+
+    List<ActorVM> actors = JsonSerializer.Deserialize<List<ActorVM>>(@Context.Session.GetString("actors"));
+    List<GenreVM> genres = JsonSerializer.Deserialize<List<GenreVM>>(@Context.Session.GetString("genres"));
+}
+
+<h1>Create a Movie</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Director" class="control-label"></label>
+                <input asp-for="Director" class="form-control" />
+                <span asp-validation-for="Director" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Aired" class="control-label"></label>
+                <input asp-for="Aired" class="form-control" />
+                <span asp-validation-for="Aired" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Duration" class="control-label"></label>
+                <input asp-for="Duration" class="form-control" />
+                <span asp-validation-for="Duration" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Image" class="control-label"></label>
+                <input asp-for="Image" class="form-control" />
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <h2>Actors</h2>
+                @foreach (var actor in actors)
+                {<input type="checkbox" asp-for="MovieActorDTOs" name="@actor.FullName" value="@actor.Id"> @actor.FullName<br>}
+                <span asp-validation-for="MovieActorDTOs" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <h2>Genres</h2>
+                @foreach (var genre in genres)
+                {<input type="checkbox" asp-for="MovieGenreDTOs" name="@genre.GenreName" value="@genre.Id"> @genre.GenreName<br>}
+                <span asp-validation-for="MovieGenreDTOs" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
