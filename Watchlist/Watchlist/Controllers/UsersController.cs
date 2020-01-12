@@ -184,7 +184,7 @@ namespace API.Controllers
 
         // GET: api/Users/5/WatchList
         /// <summary>
-        /// Get the details of a specified user.
+        /// Get the watchlist of a specified user.
         /// </summary>
         /// <param name="id"></param>
         [HttpGet("{id}/watchlist")]
@@ -197,9 +197,25 @@ namespace API.Controllers
             return user.WatchListDTOs.ToList();
         }
 
+        // PUT: api/Users/5/watchlist
+        /// <summary>
+        /// Update a specified watchlist item.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="watchListDTO"></param>
+        [HttpPut("{id}/watchlist")]
+        public async Task<ActionResult<WatchListDTO>> UpdateWatchlistItem(string id, WatchListDTO watchListDTO)
+        {
+            var watchlistResult = await _userRepository.UpdateWatchlistItem(id, watchListDTO).ConfigureAwait(false);
+
+            if (watchlistResult == null) return NotFound();
+
+            return watchlistResult;
+        }
+
         // DELETE: api/Users/5/watchlist
         /// <summary>
-        /// Delete a specified user.
+        /// Delete a specified watchlist item.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="watchListDeleteDTO"></param>

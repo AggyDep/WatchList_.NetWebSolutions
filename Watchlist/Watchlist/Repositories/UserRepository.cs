@@ -33,10 +33,8 @@ namespace API.Repositories
                     WatchListDTOs = u.WatchLists.Select(w => new WatchListDTO()
                     {
                         UserId = u.Id,
-                        UserName = u.UserName,
                         MovieId = w.MovieId,
-                        MovieName = w.Movie.Name,
-                        Status = w.Status,
+                        Status = getStatusString(w.Status),
                         Score = w.Score
                     }).ToList()
                 })
@@ -63,10 +61,8 @@ namespace API.Repositories
                     WatchListDTOs = u.WatchLists.Select(w => new WatchListDTO()
                     {
                         UserId = u.Id,
-                        UserName = u.UserName,
                         MovieId = w.MovieId,
-                        MovieName = w.Movie.Name,
-                        Status = w.Status,
+                        Status = getStatusString(w.Status),
                         Score = w.Score
                     }).ToList()
                 })
@@ -123,7 +119,7 @@ namespace API.Repositories
                         User = user,
                         MovieId = movie.Id,
                         Movie = movie,
-                        Status = watchListDTO.Status,
+                        Status = getStatus(watchListDTO.Status),
                         Score = watchListDTO.Score
                     });
                 }
@@ -217,16 +213,41 @@ namespace API.Repositories
                     WatchListDTOs = u.WatchLists.Select(w => new WatchListDTO()
                     {
                         UserId = u.Id,
-                        UserName = u.UserName,
                         MovieId = w.MovieId,
-                        MovieName = w.Movie.Name,
-                        Status = w.Status,
+                        Status = getStatusString(w.Status),
                         Score = w.Score
                     }).ToList()
                 })
                 .AsNoTracking()
                 .FirstOrDefaultAsync(u => u.Id == userId)
                 .ConfigureAwait(false);
+        }
+
+        public async Task<WatchListDTO> UpdateWatchlistItem(string id, WatchListDTO watchListDTO)
+        {
+            if (watchListDTO == null) { throw new ArgumentNullException(nameof(watchListDTO)); }
+
+            try
+            {
+                WatchList watchlist = await _context.WatchLists
+                    .FirstOrDefaultAsync(w => w.UserId == id && w.MovieId == watchListDTO.MovieId).ConfigureAwait(false);
+                watchlist.Status = getStatus(watchListDTO.Status);
+                watchlist.Score = watchListDTO.Score;
+
+                await _context.SaveChangesAsync().ConfigureAwait(false);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (await UserExists(id).ConfigureAwait(false) == false) return null;
+                else throw;
+            }
+            return new WatchListDTO()
+            {
+                UserId = id,
+                MovieId = watchListDTO.MovieId,
+                Status = watchListDTO.Status,
+                Score =  watchListDTO.Score
+            };
         }
 
         public async Task<WatchListPostDeleteDTO> DeleteWatchlistItem(string id, WatchListPostDeleteDTO watchListDeleteDTO)
@@ -279,6 +300,45 @@ namespace API.Repositories
                     break;
             }
             return roleValue;
+        }
+
+        private Enumerations.Status getStatus(string givenStatus)
+        {
+            Enumerations.Status statusValue;
+            switch (givenStatus)
+            {
+                case "PlanToWatch":
+                    statusValue = Enumerations.Status.PlanToWatch;
+                    break;
+                case "Watching":
+                    statusValue = Enumerations.Status.Watching;
+                    break;
+                case "Watched":
+                    statusValue = Enumerations.Status.Watched;
+                    break;
+                default:
+                    statusValue = Enumerations.Status.PlanToWatch;
+                    break;
+            }
+            return statusValue;
+        }
+
+        private static string getStatusString(Enumerations.Status givenStatus)
+        {
+            var statusValue = "";
+            switch (givenStatus)
+            {
+                case Enumerations.Status.PlanToWatch:
+                    statusValue = "PlanToWatch";
+                    break;
+                case Enumerations.Status.Watching:
+                    statusValue = "Watching";
+                    break;
+                case Enumerations.Status.Watched:
+                    statusValue = "Watched";
+                    break;
+            }
+            return statusValue;
         }
     }
 }

@@ -32,7 +32,7 @@ namespace UI.Models.Watchlist
 
         [JsonPropertyName("status")]
         [Display(Name = "Status")]
-        [RegularExpression(@"^(?:Watching|Finished|PlanToWatch)", ErrorMessage = "The status must be Watching, Finished or PlanToWatch.")]
+        [RegularExpression(@"^(?:Watching|Watched|PlanToWatch)", ErrorMessage = "The status must be Watching, Finished or PlanToWatch.")]
         public Enumerations.Status Status { get; set; }
 
         [JsonPropertyName("score")]

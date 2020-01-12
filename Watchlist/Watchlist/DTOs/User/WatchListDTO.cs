@@ -9,10 +9,8 @@ namespace API.DTOs.User
     public class WatchListDTO
     {
         public string UserId { get; set; }
-        public string UserName { get; set; }
         public int MovieId { get; set; }
-        public string MovieName { get; set; }
-        public Enumerations.Status Status { get; set; }
+        public string Status { get; set; }
         public int Score { get; set; }
     }
 }

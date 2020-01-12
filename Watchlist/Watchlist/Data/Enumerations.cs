@@ -11,6 +11,6 @@ namespace API.Data
         public enum Role { User, Admin };
 
         [DefaultValue(PlanToWatch)]
-        public enum Status { Watching, Finished, PlanToWatch };
+        public enum Status { Watching, Watched, PlanToWatch };
     }
 }
