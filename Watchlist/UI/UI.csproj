@@ -15,10 +15,7 @@
     <Folder Include="Resources\Models\User\" />
     <Folder Include="Resources\Views\Actors\" />
     <Folder Include="Resources\Views\Genres\" />
-    <Folder Include="Resources\Views\Home\" />
-    <Folder Include="Resources\Views\Movies\" />
     <Folder Include="Resources\Views\Users\" />
-    <Folder Include="Resources\Views\Shared\" />
   </ItemGroup>
 
 

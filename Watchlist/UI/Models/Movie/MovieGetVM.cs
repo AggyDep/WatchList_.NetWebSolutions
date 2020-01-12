@@ -31,6 +31,7 @@ namespace UI.Models.Movie
         public string Director { get; set; }
 
         [JsonPropertyName("duration")]
+        [Display(Name = "Duration")]
         [Required(ErrorMessage = "The duration is required.")]
         [StringLength(4, ErrorMessage = "The length must be 4 characters.")]
         [RegularExpression(@"([0-9]h[0-9][0-9])", ErrorMessage = "The duration must be as 0h00.")]

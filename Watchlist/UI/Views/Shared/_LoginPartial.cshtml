@@ -37,7 +37,7 @@
     }
 }
 
-<ul class="navbar-nav" style="margin-left: 40%;">
+<ul class="navbar-nav" style="margin-left: 25%;">
     @if (FullName == null)
     {
         <li class="nav-item">
@@ -59,13 +59,6 @@
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             @Localizer["Language"] (@Context.Session.GetString("culture"))
-            @*[
-            @{ var session = @Context.Session; }
-            @foreach (string key in session.Keys)
-            {
-                <p>Key: @key - Value: @session.Get(key).ToString()</p>
-            }
-            ]*@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="SetCulture" asp-route-culture="EN">English</a>

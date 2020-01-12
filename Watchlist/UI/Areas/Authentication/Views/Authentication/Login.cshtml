@@ -1,7 +1,7 @@
 ﻿@model UI.Areas.Authentication.Models.UserLoginVM
 
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = Localizer["Login"];
 }
 
     <h1>@Localizer["Login"]</h1>
@@ -26,7 +26,7 @@
                 </label>
             </div>
             <div class="form-group">
-                <input type="submit" value="Login" class="btn btn-primary" />
+                <input type="submit" value="@Localizer["Login"]" class="btn btn-primary" />
             </div>
         </form>
     </div>

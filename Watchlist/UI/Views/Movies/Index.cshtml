@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<UI.Models.Movie.MovieGetVM>
 
 @{
-    ViewData["Title"] = "Movies";
+    ViewData["Title"] = @Localizer["Movies"];
 
     string FullName = null;
     string Id = null;
@@ -19,12 +19,12 @@
     TempData.Keep();
 }
 
-<h1>Movies</h1>
+    <h1>@Localizer["Movies"]</h1>
 
 @if (Role == "1")
 {
     <p>
-        <a asp-action="Create">Create a New Movie</a>
+        <a asp-action="Create">@Localizer["Create a New Movie"]</a>
     </p>
 }
 <table class="table">
@@ -76,13 +76,18 @@
             <td>
                 @if (Role == "0" || Role == null)
                 {
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    <a asp-action="Details" asp-route-id="@item.Id">@Localizer["Details"]</a>
+                    @if (FullName != null)
+                    {
+                        <p> | </p><a>@Localizer["Add to watchlist"]</a>
+                    }
                 }
                 else if (Role == "1")
                 {
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a><p> | </p>
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a><p> | </p>
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id">@Localizer["Edit"]</a><p> | </p>
+                    <a asp-action="Details" asp-route-id="@item.Id">@Localizer["Details"]</a><p> | </p>
+                    <a asp-action="Delete" asp-route-id="@item.Id">@Localizer["Delete"]</a><p> | </p>
+                    <a>@Localizer["Add to watchlist"]</a>
                 }
             </td>
         </tr>
