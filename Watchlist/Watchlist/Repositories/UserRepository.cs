@@ -229,40 +229,28 @@ namespace API.Repositories
                 .ConfigureAwait(false);
         }
 
-        public async Task<UserPutDTO> AddToWatchListOfUser(string id, UserPutDTO userPutDTO)
+        public async Task<WatchListPostDeleteDTO> DeleteWatchlistItem(string id, WatchListPostDeleteDTO watchListDeleteDTO)
         {
-            if (userPutDTO == null) { throw new ArgumentNullException(nameof(userPutDTO)); }
+            if (watchListDeleteDTO == null) { throw new ArgumentNullException(nameof(watchListDeleteDTO)); }
 
             try
             {
-                User user = await _context.Users.Include(u => u.WatchLists)
-                    .FirstOrDefaultAsync(u => u.Id == id).ConfigureAwait(false);
-                user.UserName = userPutDTO.Username;
+                WatchList watchlist = await _context.WatchLists
+                    .FirstOrDefaultAsync(w => w.UserId == id && w.MovieId == watchListDeleteDTO.MovieId).ConfigureAwait(false); 
+                _context.WatchLists.Remove(watchlist);
 
-                _context.WatchLists.RemoveRange(user.WatchLists);
-
-                foreach (WatchListDTO watchListDTO in userPutDTO.WatchListDTOs)
-                {
-                    Movie movie = _context.Movies.Find(watchListDTO.MovieId);
-                    user.WatchLists.Add(new WatchList()
-                    {
-                        UserId = user.Id,
-                        User = user,
-                        MovieId = movie.Id,
-                        Movie = movie,
-                        Status = watchListDTO.Status,
-                        Score = watchListDTO.Score
-                    });
-                }
-
-                await _userManager.UpdateAsync(user).ConfigureAwait(false);
+                await _context.SaveChangesAsync().ConfigureAwait(false);
             }
             catch (DbUpdateConcurrencyException)
             {
                 if (await UserExists(id).ConfigureAwait(false) == false) return null;
                 else throw;
             }
-            return userPutDTO;
+            return new WatchListPostDeleteDTO()
+            {
+                UserId = id,
+                MovieId = watchListDeleteDTO.MovieId
+            };
         }
 
         private async Task<bool> UserExists(string id)

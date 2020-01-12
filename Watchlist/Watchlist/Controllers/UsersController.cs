@@ -197,25 +197,20 @@ namespace API.Controllers
             return user.WatchListDTOs.ToList();
         }
 
-
-        // PUT: api/Users/5
+        // DELETE: api/Users/5/watchlist
         /// <summary>
-        /// Update a specified user.
+        /// Delete a specified user.
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="userPutDTO"></param>
-        [HttpPut("{id}/watchlist")]
-        public async Task<IActionResult> AddToWatchList(string id, UserPutDTO userPutDTO)
+        /// <param name="watchListDeleteDTO"></param>
+        [HttpDelete("{id}/watchlist")]
+        public async Task<ActionResult<WatchListPostDeleteDTO>> DeleteWatchlistItem(string id, WatchListPostDeleteDTO watchListDeleteDTO)
         {
-            if (userPutDTO == null) { throw new ArgumentNullException(nameof(userPutDTO)); }
+            var watchlistResult = await _userRepository.DeleteWatchlistItem(id, watchListDeleteDTO).ConfigureAwait(false);
 
-            if (id != userPutDTO.Id) return BadRequest();
+            if (watchlistResult == null) return NotFound();
 
-            var userResult = await _userRepository.AddToWatchListOfUser(id, userPutDTO).ConfigureAwait(false);
-
-            if (userResult == null) return NotFound();
-
-            return NoContent();
+            return watchlistResult;
         }
     }
 }

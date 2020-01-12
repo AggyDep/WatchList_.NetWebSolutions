@@ -16,6 +16,6 @@ namespace API.Repositories
         Task<UserDeleteDTO> DeleteUser(string id);
         Task<UserRegisterDTO> RegisterUser(UserRegisterDTO userRegisterDTO);
         Task<UserDTO> GetUserWithWatchList(string userId);
-        Task<UserPutDTO> AddToWatchListOfUser(string id, UserPutDTO userPutDTO);
+        Task<WatchListPostDeleteDTO> DeleteWatchlistItem(string id, WatchListPostDeleteDTO watchListDeleteDTO);
     }
 }
