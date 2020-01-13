@@ -1,0 +1,52 @@
+﻿@model IEnumerable<UI.Models.Watchlist.WatchlistShowVM>
+
+@{
+    ViewData["Title"] = "Watchlist items";
+
+    string FullName = null;
+    string Id = null;
+    string Role = null;
+
+    if (TempData.ContainsKey("StateData"))
+    {
+        Dictionary<string, string> stateData = (Dictionary<string, string>)TempData["StateData"];
+
+        FullName = stateData["_FullName"];
+        Id = stateData["_Id"];
+        Role = stateData["_Role"];
+    }
+
+    TempData.Keep();
+}
+
+<h1>Watchlist items</h1>
+@if (Model.Count() == 0)
+{
+<div style="width: 38%; margin: auto; margin-top: 20%;">
+    <h2>Your watchlist is empty.</h2>
+</div>
+} else 
+{
+<div style="display: flex; flex-flow: wrap; flex-direction: row; justify-content: space-between; margin: 6.5% 5% 5% 5%;">
+    @foreach (var item in Model)
+    {
+        <div style="width: 45%; display: flex; flex-direction: row; margin-bottom: 5%; background-color: #f7f7f7; padding: 0.5px">
+            <img src="@item.Image" alt="@item.MovieName pic"
+                 class="img-responsive" style="max-height: 230px;">
+            <div style="display: flex; flex-flow: column; margin: auto;">
+                <h3>@item.MovieName</h3>
+                <a asp-controller="Movies" asp-action="Details" asp-route-id="@item.MovieId">@Localizer["Movie details"]</a>
+                <br />
+                <div style="margin-top: -0.5%;">
+                    <p><span style="font-weight: bold">Score</span>&nbsp;@item.Score/10</p>
+                    <p><span style="font-weight: bold">Status</span>&nbsp;@item.Status</p>
+                </div>
+                <div style="margin-top: 3.5%;">
+                    <a asp-controller="Watchlist" asp-action="Update" asp-route-id="@item.MovieId" style="margin-top: 5%;">@Localizer["Update status"]</a><br />
+                    <a asp-controller="Watchlist" asp-action="Delete" asp-route-id="@item.MovieId" style="margin-top: 5%;">@Localizer["Delete item"]</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+}
