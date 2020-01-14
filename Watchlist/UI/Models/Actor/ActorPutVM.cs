@@ -27,8 +27,12 @@ namespace UI.Models.Actor
         public string Birthday { get; set; }
 
         [JsonPropertyName("biography")]
+        [Display(Name = "Biography")]
         public string Biography { get; set; }
+
         [JsonPropertyName("website")]
+        [Display(Name = "Website")]
+        [DataType(DataType.Url, ErrorMessage = "The website must be a valid URL.")]
         public string Website { get; set; }
 
         [JsonPropertyName("image")]

@@ -117,16 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Genre name" xml:space="preserve">
-    <value>Genre naam</value>
+  <data name="Actors" xml:space="preserve">
+    <value>Acteurs</value>
   </data>
-  <data name="Invalid characters used." xml:space="preserve">
-    <value>Er worden ongeldige karakters gebruikt.</value>
+  <data name="Biography" xml:space="preserve">
+    <value>Biografie</value>
   </data>
-  <data name="The genre name is required." xml:space="preserve">
-    <value>De genre naam is vereist.</value>
+  <data name="Birthday" xml:space="preserve">
+    <value>Verjaardag</value>
   </data>
-  <data name="The length must be between 2 and 60 characters." xml:space="preserve">
-    <value>De lengte moet tussen 2 en 60 karakters zijn.</value>
+  <data name="Create a New Actor" xml:space="preserve">
+    <value>Creëer een nieuwe acteur</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Verwijder</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Bewerk</value>
+  </data>
+  <data name="Full name" xml:space="preserve">
+    <value>Naam</value>
   </data>
 </root>

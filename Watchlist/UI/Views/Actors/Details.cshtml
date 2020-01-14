@@ -24,20 +24,20 @@
 </div>
 <div style="margin-top: 3.5%;">
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FullName)
+        <dt class="col-sm-2">
+            @Localizer[@Html.DisplayNameFor(model => model.FullName)]
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.FullName)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Birthday)
+        <dt class="col-sm-2">
+            @Localizer[@Html.DisplayNameFor(model => model.Birthday)]
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Birthday)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Biography)
+        <dt class="col-sm-2">
+            @Localizer[@Html.DisplayNameFor(model => model.Biography)]
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Biography)
@@ -48,18 +48,12 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Website)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Image)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Image)
-        </dd>
     </dl>
 </div>
 <div>
     @if (Role == "1")
     {
-        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a><p> | </p>
+    <a asp-action="Edit" asp-route-id="@Model.Id">@Localizer["Edit"]</a><p> | </p>
     }
-    <a asp-action="Index">Back to List</a>
+<a asp-action="Index">@Localizer["Back to List"]</a>
 </div>

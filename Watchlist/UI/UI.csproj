@@ -13,8 +13,6 @@
 
   <ItemGroup>
     <Folder Include="Resources\Models\User\" />
-    <Folder Include="Resources\Views\Actors\" />
-    <Folder Include="Resources\Views\Genres\" />
     <Folder Include="Resources\Views\Users\" />
   </ItemGroup>
 

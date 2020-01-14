@@ -126,6 +126,9 @@
   <data name="Image" xml:space="preserve">
     <value>Afbeelding</value>
   </data>
+  <data name="Invalid characters used." xml:space="preserve">
+    <value>Er worden ongeldige karakters gebruikt.</value>
+  </data>
   <data name="Name" xml:space="preserve">
     <value>Naam</value>
   </data>
@@ -134,5 +137,38 @@
   </data>
   <data name="Synopsis" xml:space="preserve">
     <value>Overzicht</value>
+  </data>
+  <data name="The airing date is required." xml:space="preserve">
+    <value>De uitzend datum is vereist.</value>
+  </data>
+  <data name="The airing date must be as DD/MM/YYYY." xml:space="preserve">
+    <value>De verjaardag moet zoals DD/MM/YYYY zijn.</value>
+  </data>
+  <data name="The director is required." xml:space="preserve">
+    <value>De regisseur is vereist.</value>
+  </data>
+  <data name="The duration is required." xml:space="preserve">
+    <value>De duurtijd is vereist.</value>
+  </data>
+  <data name="The duration must be as 0h00." xml:space="preserve">
+    <value>De duurtijd moet zoals 0h00 zijn.</value>
+  </data>
+  <data name="The length must be 10 characters." xml:space="preserve">
+    <value>De lengte moet 10 karakters zijn.</value>
+  </data>
+  <data name="The length must be 4 characters." xml:space="preserve">
+    <value>De lengte moet 4 karakters zijn.</value>
+  </data>
+  <data name="The length must be between 2 and 60 characters." xml:space="preserve">
+    <value>De lengte moet tussen 2 en 60 karakters zijn.</value>
+  </data>
+  <data name="The name is required." xml:space="preserve">
+    <value>De naam is vereist.</value>
+  </data>
+  <data name="The score must be between 0 and 10." xml:space="preserve">
+    <value>De score moet tussen 0 en 10 zijn.</value>
+  </data>
+  <data name="This field must be a valid URL to an image." xml:space="preserve">
+    <value>Dit veld moet een geldige URL naar een afbeelding bevatten.</value>
   </data>
 </root>

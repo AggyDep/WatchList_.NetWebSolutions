@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<UI.Models.Actor.ActorVM>
 
 @{
-    ViewData["Title"] = "Actors";
+    ViewData["Title"] = @Localizer["Actors"];
 
     string Role = null;
 
@@ -15,12 +15,12 @@
     TempData.Keep();
 }
 
-<h1>Actors</h1>
+<h1>@Localizer["Actors"]</h1>
 
 @if (Role == "1")
 {
 <p>
-    <a asp-action="Create">Create a New Actor</a>
+    <a asp-action="Create">@Localizer["Create a New Actor"]</a>
 </p>
 }
 <table class="table">
@@ -29,13 +29,13 @@
             <th>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FullName)
+                @Localizer[@Html.DisplayNameFor(model => model.FullName)]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Birthday)
+                @Localizer[@Html.DisplayNameFor(model => model.Birthday)]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Biography)
+                @Localizer[@Html.DisplayNameFor(model => model.Biography)]
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Website)
@@ -70,9 +70,9 @@
                 }
                 else if (Role == "1")
                 {
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a><p> | </p>
+                    <a asp-action="Edit" asp-route-id="@item.Id">@Localizer["Edit"]</a><p> | </p>
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a><p> | </p>
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id">@Localizer["Delete"]</a>
                 }
             </td>
         </tr>

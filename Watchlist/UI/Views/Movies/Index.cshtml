@@ -74,12 +74,20 @@
                 @Html.DisplayFor(modelItem => item.Score)
             </td>
             <td>
+                @{
+                    var parms = new Dictionary<string, string>
+                    {
+                        {"userId", Id },
+                        {"movieId", item.Id.ToString() }
+                    };
+                    
+                }
                 @if (Role == "0" || Role == null)
                 {
                     <a asp-action="Details" asp-route-id="@item.Id">@Localizer["Details"]</a>
                     @if (FullName != null)
                     {
-                        <p> | </p><a>@Localizer["Add to watchlist"]</a>
+                        <p> | </p><a asp-controller="Watchlist" asp-action="Add" asp-all-route-data="parms">@Localizer["Add to watchlist"]</a>
                     }
                 }
                 else if (Role == "1")
@@ -87,7 +95,7 @@
                     <a asp-action="Edit" asp-route-id="@item.Id">@Localizer["Edit"]</a><p> | </p>
                     <a asp-action="Details" asp-route-id="@item.Id">@Localizer["Details"]</a><p> | </p>
                     <a asp-action="Delete" asp-route-id="@item.Id">@Localizer["Delete"]</a><p> | </p>
-                    <a>@Localizer["Add to watchlist"]</a>
+                    <a asp-controller="Watchlist" asp-action="Add" asp-all-route-data="parms">@Localizer["Add to watchlist"]</a>
                 }
             </td>
         </tr>

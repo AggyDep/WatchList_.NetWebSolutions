@@ -5,13 +5,13 @@
 @using Microsoft.AspNetCore.Http
 
 @{
-    ViewData["Title"] = "Create a Movie";
+    ViewData["Title"] = (@Localizer["Create a Movie"]);
 
     List<ActorVM> actors = JsonSerializer.Deserialize<List<ActorVM>>(@Context.Session.GetString("actors"));
     List<GenreVM> genres = JsonSerializer.Deserialize<List<GenreVM>>(@Context.Session.GetString("genres"));
 }
 
-<h1>Create a Movie</h1>
+<h1>@Localizer["Create a Movie"]</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -33,7 +33,7 @@
                 <span asp-validation-for="Aired" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Duration" class="control-label"></label>
+                <label asp-for="Duration" class="control-label">@Localizer["Duration"]</label>
                 <input asp-for="Duration" class="form-control" />
                 <span asp-validation-for="Duration" class="text-danger"></span>
             </div>
@@ -43,19 +43,19 @@
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <h2>Actors</h2>
+                <h4>@Localizer["Actors"]</h4>
                 @foreach (var actor in actors)
-                {<input type="checkbox" asp-for="MovieActorDTOs" name="@actor.FullName" value="@actor.Id"> @actor.FullName<br>}
-                <span asp-validation-for="MovieActorDTOs" class="text-danger"></span>
+                {<input type="checkbox" name="@actor.FullName" value="@actor.Id"> @actor.FullName<br>}
+                <span class="text-danger"></span>
             </div>
             <div class="form-group">
-                <h2>Genres</h2>
+                <h4>Genres</h4>
                 @foreach (var genre in genres)
-                {<input type="checkbox" asp-for="MovieGenreDTOs" name="@genre.GenreName" value="@genre.Id"> @genre.GenreName<br>}
-                <span asp-validation-for="MovieGenreDTOs" class="text-danger"></span>
+                {<input type="checkbox" name="@genre.GenreName" value="@genre.Id"> @genre.GenreName<br>}
+                <span class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value=@Localizer["Create"] class="btn btn-primary" />
             </div>
         </form>
     </div>

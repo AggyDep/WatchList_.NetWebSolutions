@@ -5,15 +5,13 @@
 @using Microsoft.AspNetCore.Http
 
 @{
-    ViewData["Title"] = ("Edit " + @Model.Name);
+    ViewData["Title"] = (@Localizer["Edit"] + @Model.Name);
 
     List<ActorVM> actors = JsonSerializer.Deserialize<List<ActorVM>>(@Context.Session.GetString("actors"));
     List<GenreVM> genres = JsonSerializer.Deserialize<List<GenreVM>>(@Context.Session.GetString("genres"));
 }
 
-<h1>Edit @Html.DisplayFor(model => model.Name)</h1>
-
-<h4>MovieVM</h4>
+<h1>@Localizer["Edit"] @Html.DisplayFor(model => model.Name)</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -26,7 +24,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Synopsis" class="control-label"></label>
-                <input asp-for="Synopsis" class="form-control" />
+                <textarea asp-for="Synopsis" class="form-control" ></textarea>
                 <span asp-validation-for="Synopsis" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -40,7 +38,7 @@
                 <span asp-validation-for="Aired" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Duration" class="control-label"></label>
+                <label asp-for="Duration" class="control-label">@Localizer["Duration"]</label>
                 <input asp-for="Duration" class="form-control" />
                 <span asp-validation-for="Duration" class="text-danger"></span>
             </div>
@@ -55,25 +53,25 @@
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <h2>Actors</h2>
+                <h4>@Localizer["Actors"]</h4>
                 @foreach (var actor in actors)
                 {<input type="checkbox" name="@actor.FullName" value="@actor.Id"> @actor.FullName<br>}
                 <span class="text-danger"></span>
             </div>
             <div class="form-group">
-                <h2>Genres</h2>
+                <h4>Genres</h4>
                 @foreach (var genre in genres)
                 {<input type="checkbox" name="@genre.GenreName" value="@genre.Id"> @genre.GenreName<br>}
                 <span class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value=@Localizer["Create"] class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">@Localizer["Back to List"]</a>
 </div>
 
