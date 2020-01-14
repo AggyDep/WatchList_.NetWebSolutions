@@ -20,7 +20,7 @@ namespace UI.Models.Watchlist
 
         [JsonPropertyName("status")]
         [Display(Name = "Status")]
-        [RegularExpression(@"^(?:Watching|Watched|PlanToWatch)", ErrorMessage = "The status must be Watching, Finished or PlanToWatch.")]
+        [RegularExpression(@"^(?:Watching|Watched|PlanToWatch)", ErrorMessage = "The status must be PlanToWatch, Watching or Watched.")]
         public string Status { get; set; }
 
         [JsonPropertyName("score")]

@@ -117,10 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Movie id" xml:space="preserve">
-    <value>Film id</value>
+  <data name="Are you sure you want to delete this item from your watchlist?" xml:space="preserve">
+    <value>Zeker dat je dit item van je kijklijst wil verwijderen?</value>
   </data>
-  <data name="User id" xml:space="preserve">
-    <value>Gebruikers id</value>
+  <data name="Back to List" xml:space="preserve">
+    <value>Terug naar overzicht</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Verwijder</value>
+  </data>
+  <data name="Movie" xml:space="preserve">
+    <value>Film</value>
   </data>
 </root>

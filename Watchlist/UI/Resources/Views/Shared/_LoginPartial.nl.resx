@@ -129,4 +129,7 @@
   <data name="Register" xml:space="preserve">
     <value>Registreer</value>
   </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>Welkom</value>
+  </data>
 </root>

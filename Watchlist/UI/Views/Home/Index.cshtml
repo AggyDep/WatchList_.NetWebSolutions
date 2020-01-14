@@ -57,7 +57,7 @@
                     {
                         @if (watchlist.Exists(w => w.MovieId == movie.Id))
                         {
-                            <p>In <a asp-controller="Watchlist" asp-action="Index" asp-route-id=@Id>Watchlist</a></p>
+                            <p>In <a asp-controller="Watchlist" asp-action="Index" asp-route-id=@Id>@Localizer["Watchlist"]</a></p>
                         }
                         else
                         {

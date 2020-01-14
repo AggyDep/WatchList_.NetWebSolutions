@@ -1,7 +1,7 @@
 ﻿@model UI.Models.Watchlist.WatchlistShowVM
 
 @{
-    ViewData["Title"] = "Add an item";
+    ViewData["Title"] = @Localizer["Add an item"];
 
     string Id = null;
 
@@ -14,7 +14,7 @@
     TempData.Keep();
 }
 
-    <h1>Add @Html.DisplayFor(model => model.MovieName) to your watchlist?</h1>
+    <h1>@Localizer["Add"] @Html.DisplayFor(model => model.MovieName) @Localizer["to your watchlist?"]</h1>
 <hr />
 <div style="margin-top: 0.5%; display: flex; flex-direction: column;">
     <div style="float: left; margin-right: 4%; margin-top: 0.5%; margin: auto;">
@@ -30,8 +30,8 @@
                     };
         }
         <form asp-action="Add" asp-route-id=@Id asp-all-route-data="parms">
-            <input type="submit" value="Yes add to list" class="btn btn-success" /> |
-            <a asp-controller="Home" asp-action="Index" asp-route-id=@Id>No, go back to Home</a>
+            <input type="submit" value="@Localizer["Yes add to list"]" class="btn btn-success" /> |
+            <a asp-controller="Home" asp-action="Index" asp-route-id=@Id>@Localizer["No, go back to Home"]</a>
         </form>
     </div>
 </div>

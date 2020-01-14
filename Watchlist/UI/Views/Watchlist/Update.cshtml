@@ -2,7 +2,7 @@
 @using UI.Data;
 
 @{
-    ViewData["Title"] = "Update";
+    ViewData["Title"] = @Localizer["Update"];
 
     string Id = null;
 
@@ -15,7 +15,7 @@
     TempData.Keep();
 }
 
-<h1>Update watchlist item</h1>
+<h1>@Localizer["Update watchlist item"]</h1>
 
 <hr />
 <div class="row">
@@ -37,9 +37,9 @@
             <div class="form-group">
                 <label asp-for="Status" class="control-label" style="font-weight: 500"></label>
                 <div>
-                    @Html.RadioButtonFor(model => model.Status, "PlanToWatch") Plan to watch <br />
-                    @Html.RadioButtonFor(model => model.Status, "Watching") Watching <br />
-                    @Html.RadioButtonFor(model => model.Status, "Watched") Watched <br />
+                    @Html.RadioButtonFor(model => model.Status, "PlanToWatch") @Localizer["Plan to watch"] <br />
+                    @Html.RadioButtonFor(model => model.Status, "Watching") @Localizer["Watching"] <br />
+                    @Html.RadioButtonFor(model => model.Status, "Watched") @Localizer["Watched"] <br />
                 </div>
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
@@ -49,8 +49,8 @@
                 <span asp-validation-for="Score" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" /> |
-                <a asp-action="Index" asp-route-id=@Id>Back to List</a>
+                <input type="submit" value="@Localizer["Save"]" class="btn btn-primary" /> |
+                <a asp-action="Index" asp-route-id=@Id>@Localizer["Back to List"]</a>
             </div>
         </form>
     </div>

@@ -118,13 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Add to watchlist" xml:space="preserve">
-    <value>Toevoegen aan watchlijst</value>
+    <value>Toevoegen aan kijklijst</value>
   </data>
   <data name="guest" xml:space="preserve">
     <value>bezoeker</value>
   </data>
   <data name="Movie details" xml:space="preserve">
     <value>Film details</value>
+  </data>
+  <data name="Watchlist" xml:space="preserve">
+    <value>Kijklijst</value>
   </data>
   <data name="Welcome" xml:space="preserve">
     <value>Welkom</value>

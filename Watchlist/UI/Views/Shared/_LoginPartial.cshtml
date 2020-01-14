@@ -50,7 +50,7 @@
     else
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Details" asp-route-id="@Id">Welkom @FullName</a>
+            <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Details" asp-route-id="@Id">@Localizer["Welcome"] @FullName</a>
         </li>
         <li class="nav-item">
             <a class="nav-link text-dark" asp-route="logout">@Localizer["Logout"]</a>

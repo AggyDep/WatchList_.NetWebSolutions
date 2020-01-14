@@ -117,10 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Movie id" xml:space="preserve">
-    <value>Film id</value>
+  <data name="Back to List" xml:space="preserve">
+    <value>Terug naar overzicht</value>
   </data>
-  <data name="User id" xml:space="preserve">
-    <value>Gebruikers id</value>
+  <data name="Plan to watch" xml:space="preserve">
+    <value>Plan om te kijken</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Bewaar</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="Update watchlist item" xml:space="preserve">
+    <value>Update kijklijst item</value>
+  </data>
+  <data name="Watched" xml:space="preserve">
+    <value>Bekeken</value>
+  </data>
+  <data name="Watching" xml:space="preserve">
+    <value>Kijkend</value>
   </data>
 </root>

@@ -117,8 +117,29 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Image" xml:space="preserve">
+    <value>Afbeelding</value>
+  </data>
   <data name="Movie id" xml:space="preserve">
     <value>Film id</value>
+  </data>
+  <data name="Movie name" xml:space="preserve">
+    <value>Filmnaam</value>
+  </data>
+  <data name="The length must be between 2 and 60 characters." xml:space="preserve">
+    <value>De lengte moet tussen 2 en 60 karakters zijn.</value>
+  </data>
+  <data name="The movie name is required." xml:space="preserve">
+    <value>De filmnaam is vereist.</value>
+  </data>
+  <data name="The score must be between 0 and 10." xml:space="preserve">
+    <value>De score moet tussen 0 en 10 zijn.</value>
+  </data>
+  <data name="The status must be PlanToWatch, Watching or Watched." xml:space="preserve">
+    <value>De status is of PlanOmTeKijken, Kijkend, Bekeken.</value>
+  </data>
+  <data name="This field must be a valid URL to an image." xml:space="preserve">
+    <value>Dit veld moet een geldige URL naar een afbeelding bevatten.</value>
   </data>
   <data name="User id" xml:space="preserve">
     <value>Gebruikers id</value>

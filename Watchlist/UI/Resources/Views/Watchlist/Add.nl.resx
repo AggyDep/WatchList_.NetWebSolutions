@@ -117,10 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Movie id" xml:space="preserve">
-    <value>Film id</value>
+  <data name="Add" xml:space="preserve">
+    <value>Voeg</value>
   </data>
-  <data name="User id" xml:space="preserve">
-    <value>Gebruikers id</value>
+  <data name="Add an item" xml:space="preserve">
+    <value>Voeg een item toe</value>
+  </data>
+  <data name="No, go back to Home" xml:space="preserve">
+    <value>Nee, ga terug naar home</value>
+  </data>
+  <data name="to your watchlist?" xml:space="preserve">
+    <value>toe aan je kijklijst?</value>
+  </data>
+  <data name="Yes add to list" xml:space="preserve">
+    <value>Ja voeg toe</value>
   </data>
 </root>

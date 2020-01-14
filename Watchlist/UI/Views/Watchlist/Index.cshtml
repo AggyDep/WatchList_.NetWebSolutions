@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<UI.Models.Watchlist.WatchlistShowVM>
 
 @{
-    ViewData["Title"] = "Watchlist items";
+    ViewData["Title"] = @Localizer["Watchlist items"];
 
     string FullName = null;
     string Id = null;
@@ -19,11 +19,11 @@
     TempData.Keep();
 }
 
-<h1>Watchlist items</h1>
+<h1>@Localizer["Watchlist items"]</h1>
 @if (Model.Count() == 0)
 {
 <div style="width: 38%; margin: auto; margin-top: 20%;">
-    <h2>Your watchlist is empty.</h2>
+    <h2>@Localizer["Your watchlist is empty."]</h2>
 </div>
 } else 
 {
@@ -39,7 +39,7 @@
                 <br />
                 <div style="margin-top: -0.5%;">
                     <p><span style="font-weight: bold">Score</span>&nbsp;@item.Score/10</p>
-                    <p><span style="font-weight: bold">Status</span>&nbsp;@item.Status</p>
+                    <p><span style="font-weight: bold">Status</span>&nbsp;@Localizer[@item.Status]</p>
                 </div>
                 @{
                     var parms = new Dictionary<string, string>
