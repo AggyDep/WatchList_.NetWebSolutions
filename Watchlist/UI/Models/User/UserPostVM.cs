@@ -43,6 +43,7 @@ namespace UI.Models.User
         [RegularExpression(@"^\w+[\w-\.]*\@\w+((-\w+)|(\w*))\.[a-z]{2,3}$", ErrorMessage = "The email adress is invalid.")]
         public string Email { get; set; }
 
+        [JsonPropertyName("password")]
         [Display(Name = "Password")]
         [Required(ErrorMessage = "The password is required.")]
         [DataType(DataType.Password, ErrorMessage = "Invalid password.")]

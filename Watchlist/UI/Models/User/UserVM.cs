@@ -52,6 +52,7 @@ namespace UI.Models.User
         public string Birthday { get; set; }
 
         [JsonPropertyName("about")]
+        [Display(Name = "About")]
         public string About { get; set; }
 
         [JsonPropertyName("image")]
