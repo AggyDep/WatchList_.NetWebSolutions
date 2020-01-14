@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UI.Extensions;
 using UI.Models.Movie;
+using UI.Models.User;
 using UI.Models.Watchlist;
 
 namespace UI.Controllers
@@ -82,23 +83,40 @@ namespace UI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(string userId, string movieId, WatchlistShowVM watchlistShow)
         {
-            WatchlistPostDeleteVM watchlistPost = new WatchlistPostDeleteVM()
+            WatchlistVM watchlistItem = new WatchlistVM()
             {
                 UserId = userId,
-                MovieId = Int32.Parse(movieId)
-
+                MovieId = Int32.Parse(movieId),
+                Score = 0,
+                Status = "PlanToWatch"
+            };
+            UserVM currentUser = await getCurrentUser(userId);
+            UserPutVM userPut = new UserPutVM() {
+                Id = userId,
+                Username = currentUser.Username,
+                Name = currentUser.Name,
+                LastName = currentUser.LastName,
+                Email = currentUser.Email,
+                Birthday = currentUser.Birthday,
+                About = currentUser.About,
+                Image = currentUser.Image,
+                WatchListDTOs = currentUser.WatchListDTOs
             };
 
+            userPut.WatchListDTOs.Add(watchlistItem);
+
             var client = _httpClientFactory.CreateClient();
-            //var itemContent = new StringContent(JsonSerializer.Serialize(), Encoding.UTF8, "application/json");
+            var userContent = new StringContent(JsonSerializer.Serialize(userPut), Encoding.UTF8, "application/json");
 
-            //HttpResponseMessage httpResponseMessage = await client.PutAsync(new Uri("http://localhost:55169/api/Users/" + userId + "/watchlist"), itemContent).ConfigureAwait(false);
+            HttpResponseMessage httpResponseMessage = await client.PutAsync(new Uri("http://localhost:55169/api/Users/" + userId), userContent).ConfigureAwait(false);
 
-            //if (httpResponseMessage.IsSuccessStatusCode)
-            //{
-            //    return RedirectToAction(nameof(Index), new { id = userId });
-            //}
-            //return RedirectToAction(nameof(Index), new { id = userId });
+            if (httpResponseMessage.IsSuccessStatusCode)
+            {
+                HttpContext.Session.Remove("watchlist");
+                HttpContext.Session.SetString("watchlist", JsonSerializer.Serialize(userPut.WatchListDTOs));
+                return RedirectToAction(nameof(Index), new { id = userId });
+            }
+            return RedirectToAction(nameof(Index), new { id = userId });
         }
 
         public async Task<IActionResult> Update(string userId, string movieId)
@@ -232,9 +250,20 @@ namespace UI.Controllers
             HttpResponseMessage httpResponseMessage = await client.SendAsync(reqeust);
             if (httpResponseMessage.IsSuccessStatusCode)
             {
+                using var watchListRequest = new HttpRequestMessage(HttpMethod.Get, "http://localhost:55169/api/Users/" + userId + "/watchlist");
+                watchListRequest.Headers.Add("Accept", "application/json");
+
+                var watchListClient = _httpClientFactory.CreateClient();
+                var response = await watchListClient.SendAsync(watchListRequest).ConfigureAwait(false);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    HttpContext.Session.Remove("watchlist");
+                    HttpContext.Session.SetString("watchlist", responseString);
+                }
                 return RedirectToAction(nameof(Index), new { id = userId });
             }
-
             return RedirectToAction(nameof(Index), new { id = userId });
         }
 
@@ -260,6 +289,29 @@ namespace UI.Controllers
             }
 
             return movie;
+        }
+
+        private async Task<UserVM> getCurrentUser(string id)
+        {
+            UserVM user;
+
+            var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:55169/api/Users/" + id);
+            request.Headers.Add("Accept", "application/json");
+
+            var client = _httpClientFactory.CreateClient();
+
+            var response = await client.SendAsync(request).ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+            {
+                using var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                user = await JsonSerializer.DeserializeAsync<UserVM>(responseStream);
+            }
+            else
+            {
+                user = new UserVM();
+            }
+            return user;
         }
     }
 }
