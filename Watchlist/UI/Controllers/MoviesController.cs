@@ -20,8 +20,9 @@ namespace UI.Controllers
         {
             _httpClientFactory = httpClientFactory;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
+            ViewData["CurrentFilter"] = searchString;
             IEnumerable<MovieGetVM> movies;
 
             var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:55169/api/Movies");
@@ -39,6 +40,12 @@ namespace UI.Controllers
             else
             {
                 movies = Array.Empty<MovieGetVM>();
+            }
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                movies = movies.Where(m => m.Name.Contains(searchString)
+                                       || m.Director.Contains(searchString));
             }
 
             return View(movies);

@@ -19,8 +19,9 @@ namespace UI.Controllers
             _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
+            ViewData["CurrentFilter"] = searchString;
             IEnumerable<ActorVM> actors;
 
             var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:55169/api/Actors");
@@ -38,6 +39,11 @@ namespace UI.Controllers
             else
             {
                 actors = Array.Empty<ActorVM>();
+            }
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                actors = actors.Where(a => a.FullName.Contains(searchString));
             }
 
             return View(actors);
