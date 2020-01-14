@@ -27,7 +27,7 @@ namespace UI.Controllers
             string controller = null;
             string action = null;
             string area = null;
-            int? id = null;
+            string? id = null;
 
             if (TempData["Controller"] != null)
             {
@@ -63,7 +63,9 @@ namespace UI.Controllers
 
             if (TempData["Id"] != null)
             {
-                id = int.Parse(TempData["Id"].ToString());
+                var test = TempData["Id"].ToString();
+                //id = int.Parse(TempData["Id"].ToString());
+                id = TempData["Id"].ToString();
             }
             else
             {
