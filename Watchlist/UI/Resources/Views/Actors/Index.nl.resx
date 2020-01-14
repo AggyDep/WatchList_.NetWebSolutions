@@ -120,6 +120,9 @@
   <data name="Actors" xml:space="preserve">
     <value>Acteurs</value>
   </data>
+  <data name="Back to full list" xml:space="preserve">
+    <value>Terug naar volledig overzicht</value>
+  </data>
   <data name="Biography" xml:space="preserve">
     <value>Biografie</value>
   </data>
@@ -137,5 +140,11 @@
   </data>
   <data name="Full name" xml:space="preserve">
     <value>Naam</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Zoek</value>
+  </data>
+  <data name="Search by full name" xml:space="preserve">
+    <value>Zoeken op volledige naam</value>
   </data>
 </root>

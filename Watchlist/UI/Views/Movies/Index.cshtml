@@ -30,9 +30,9 @@
 <form>
     <div asp-action="Index" method="get">
         <p style="float: right; margin-top: -5%; width: 50%;">
-            <input style="width: 60%;" placeholder="Search by name or director" type="text" name="SearchString" value="@ViewData["currentFilter"]" />
-            <input type="submit" value="Search" class="btn btn-secondary" /> |
-            <a asp-action="Index">Back to full list</a>
+            <input style="width: 55%;" placeholder="@Localizer["Search by name or director"]" type="text" name="SearchString" value="@ViewData["currentFilter"]" />
+            <input type="submit" value=@Localizer["Search"] class="btn btn-secondary" /> |
+            <a asp-action="Index">@Localizer["Back to full list"]</a>
         </p>
     </div>
 </form>
