@@ -114,6 +114,7 @@ namespace UI.Areas.Authentication.Controllers
         public IActionResult Logout()
         {
             _stateHelper.ClearState();
+            HttpContext.Session.Clear();
             return RedirectToAction("Index", "Home");
         }
     }

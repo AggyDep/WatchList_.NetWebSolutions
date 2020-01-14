@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -60,7 +61,184 @@ namespace UI.Controllers
             return View(movies);
         }
 
-        public async Task<MovieVM> getMovie(int id)
+        public async Task<IActionResult> Add(string userId, string movieId)
+        {
+            WatchlistShowVM item;
+            MovieVM movie = await getMovie(Int32.Parse(movieId));
+
+            item = new WatchlistShowVM()
+            {
+                UserId = userId,
+                MovieId = Int32.Parse(movieId),
+                MovieName = movie.Name,
+                Image = movie.Image,
+                Status = "",
+                Score = 0
+            };
+            return View(item);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Add(string userId, string movieId, WatchlistShowVM watchlistShow)
+        {
+            WatchlistPostDeleteVM watchlistPost = new WatchlistPostDeleteVM()
+            {
+                UserId = userId,
+                MovieId = Int32.Parse(movieId)
+
+            };
+
+            var client = _httpClientFactory.CreateClient();
+            //var itemContent = new StringContent(JsonSerializer.Serialize(), Encoding.UTF8, "application/json");
+
+            //HttpResponseMessage httpResponseMessage = await client.PutAsync(new Uri("http://localhost:55169/api/Users/" + userId + "/watchlist"), itemContent).ConfigureAwait(false);
+
+            //if (httpResponseMessage.IsSuccessStatusCode)
+            //{
+            //    return RedirectToAction(nameof(Index), new { id = userId });
+            //}
+            //return RedirectToAction(nameof(Index), new { id = userId });
+        }
+
+        public async Task<IActionResult> Update(string userId, string movieId)
+        {
+            WatchlistShowVM item;
+            WatchlistVM watchlistItem = new WatchlistVM();
+            MovieVM movie = await getMovie(Int32.Parse(movieId));
+
+            IEnumerable<WatchlistVM> items;
+            var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:55169/api/Users/" + userId + "/watchlist");
+            request.Headers.Add("Accept", "application/json");
+
+            var client = _httpClientFactory.CreateClient();
+            var response = await client.SendAsync(request).ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+            {
+                using var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                items = await JsonSerializer.DeserializeAsync<IEnumerable<WatchlistVM>>(responseStream);
+            }
+            else
+            {
+                items = Array.Empty<WatchlistVM>();
+            }
+
+            foreach (WatchlistVM watchListItem in items)
+            {
+                if (watchListItem.UserId == userId && watchListItem.MovieId == Int32.Parse(movieId))
+                {
+                    watchlistItem = watchListItem;
+                }
+            }
+
+            item = new WatchlistShowVM()
+            {
+                UserId = userId,
+                MovieId = Int32.Parse(movieId),
+                MovieName = movie.Name,
+                Image = movie.Image,
+                Status = watchlistItem.Status,
+                Score = watchlistItem.Score
+            };
+            return View(item);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(string userId, string movieId, WatchlistShowVM watchlistShow)
+        {
+            WatchlistVM watchlistUpdate = new WatchlistVM()
+            {
+                UserId = userId,
+                MovieId = Int32.Parse(movieId),
+                Status = watchlistShow.Status,
+                Score = watchlistShow.Score
+
+            };
+            var client = _httpClientFactory.CreateClient();
+            var itemContent = new StringContent(JsonSerializer.Serialize(watchlistUpdate), Encoding.UTF8, "application/json");
+
+            HttpResponseMessage httpResponseMessage = await client.PutAsync(new Uri("http://localhost:55169/api/Users/" + userId + "/watchlist"), itemContent).ConfigureAwait(false);
+
+            if (httpResponseMessage.IsSuccessStatusCode)
+            {
+                return RedirectToAction(nameof(Index), new { id = userId });
+            }
+            return RedirectToAction(nameof(Index), new { id = userId });
+        }
+
+        public async Task<IActionResult> Delete(string userId, string movieId)
+        {
+            WatchlistShowVM item;
+            WatchlistVM watchlistItem = new WatchlistVM();
+            MovieVM movie = await getMovie(Int32.Parse(movieId));
+
+            IEnumerable<WatchlistVM> items;
+            var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:55169/api/Users/" + userId + "/watchlist");
+            request.Headers.Add("Accept", "application/json");
+
+            var client = _httpClientFactory.CreateClient();
+            var response = await client.SendAsync(request).ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+            {
+                using var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                items = await JsonSerializer.DeserializeAsync<IEnumerable<WatchlistVM>>(responseStream);
+            }
+            else
+            {
+                items = Array.Empty<WatchlistVM>();
+            }
+
+            foreach (WatchlistVM watchListItem in items)
+            {
+                if (watchListItem.UserId == userId && watchListItem.MovieId == Int32.Parse(movieId))
+                {
+                    watchlistItem = watchListItem;
+                }
+            }
+
+            item = new WatchlistShowVM()
+            {
+                UserId = userId,
+                MovieId = Int32.Parse(movieId),
+                MovieName = movie.Name,
+                Image = movie.Image,
+                Status = watchlistItem.Status,
+                Score = watchlistItem.Score
+            };
+            return View(item);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(string userId, string movieId, WatchlistShowVM watchlistShow)
+        {
+            WatchlistPostDeleteVM watchlistDelete = new WatchlistPostDeleteVM()
+            {
+                UserId = userId,
+                MovieId = Int32.Parse(movieId)
+            };
+
+            var client = _httpClientFactory.CreateClient();
+            var reqeust = new HttpRequestMessage 
+            {
+                Method = HttpMethod.Delete,
+                RequestUri = new Uri("http://localhost:55169/api/Users/" + userId + "/watchlist"),
+                Content = new StringContent(JsonSerializer.Serialize(watchlistDelete), Encoding.UTF8, "application/json")
+            };
+
+            HttpResponseMessage httpResponseMessage = await client.SendAsync(reqeust);
+            if (httpResponseMessage.IsSuccessStatusCode)
+            {
+                return RedirectToAction(nameof(Index), new { id = userId });
+            }
+
+            return RedirectToAction(nameof(Index), new { id = userId });
+        }
+
+        private async Task<MovieVM> getMovie(int id)
         {
             MovieVM movie;
 

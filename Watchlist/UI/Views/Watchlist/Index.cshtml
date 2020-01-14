@@ -41,9 +41,16 @@
                     <p><span style="font-weight: bold">Score</span>&nbsp;@item.Score/10</p>
                     <p><span style="font-weight: bold">Status</span>&nbsp;@item.Status</p>
                 </div>
+                @{
+                    var parms = new Dictionary<string, string>
+                    {
+                        {"userId", Id },
+                        {"movieId", item.MovieId.ToString() }
+                    };
+                 }
                 <div style="margin-top: 3.5%;">
-                    <a asp-controller="Watchlist" asp-action="Update" asp-route-id="@item.MovieId" style="margin-top: 5%;">@Localizer["Update status"]</a><br />
-                    <a asp-controller="Watchlist" asp-action="Delete" asp-route-id="@item.MovieId" style="margin-top: 5%;">@Localizer["Delete item"]</a>
+                    <a asp-controller="Watchlist" asp-action="Update" asp-all-route-data="parms" style="margin-top: 5%;">@Localizer["Update item"]</a><br />
+                    <a asp-controller="Watchlist" asp-action="Delete" asp-all-route-data="parms" style="margin-top: 5%;">@Localizer["Delete item"]</a>
                 </div>
             </div>
         </div>

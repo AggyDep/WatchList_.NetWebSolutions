@@ -1,5 +1,6 @@
 ﻿@using System.Text.Json;
 @using UI.Models.Movie;
+@using UI.Models.Watchlist;
 @using Microsoft.AspNetCore.Http
 
 @{
@@ -8,6 +9,7 @@
     string FullName = null;
     string Id = null;
     string Role = null;
+    List<WatchlistVM> watchlist = null;
 
     if (TempData.ContainsKey("StateData"))
     {
@@ -16,6 +18,14 @@
         FullName = stateData["_FullName"];
         Id = stateData["_Id"];
         Role = stateData["_Role"];
+
+        try
+        {
+            watchlist = JsonSerializer.Deserialize<List<WatchlistVM>>(@Context.Session.GetString("watchlist"));
+        } catch(ArgumentNullException e)
+        {
+            //watchlist = new List<WatchlistVM>();
+        }
     }
 
     TempData.Keep();
@@ -43,9 +53,24 @@
                 <p>@movie.Director</p>
                 @if (FullName != null)
                 {
-            <input type="submit" value="@Localizer["Add to watchlist"]" class="btn btn-primary" />
+                    @if (watchlist != null)
+                    {
+                        @if (watchlist.Exists(w => w.MovieId == movie.Id))
+                        {
+                            <p>In <a asp-controller="Watchlist" asp-action="Index" asp-route-id=@Id>Watchlist</a></p>
+                        }
+                        else
+                        {
+                            var parms = new Dictionary<string, string>
+                                {
+                                {"userId", Id },
+                                {"movieId", movie.Id.ToString() }
+                            };
+                            <a class="btn btn-primary" asp-controller="Watchlist" asp-action="Add" asp-all-route-data="parms">@Localizer["Add to watchlist"]</a>
+                        }
+                    }
                 }
-            <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" style="margin-top: 5%;">@Localizer["Movie details"]</a>
+                <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" style="margin-top: 5%;">@Localizer["Movie details"]</a>
             </div>
         </div>
     }

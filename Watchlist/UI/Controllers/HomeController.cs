@@ -99,17 +99,21 @@ namespace UI.Controllers
 
             if (!HttpContext.Session.Keys.Contains("watchlist"))
             {
-                var userId = TempData["Id"];
-                using var watchListRequest = new HttpRequestMessage(HttpMethod.Get, "http://localhost:55169/api/Users/" + userId + "/watchlist");
-                watchListRequest.Headers.Add("Accept", "application/json");
-
-                var watchListClient = _httpClientFactory.CreateClient();
-                var response = await watchListClient.SendAsync(watchListRequest).ConfigureAwait(false);
-
-                if (response.IsSuccessStatusCode)
+                Dictionary<string, string> stateData = (Dictionary<string, string>)TempData["StateData"];
+                if(stateData != null)
                 {
-                    string responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    HttpContext.Session.SetString("watchlist", responseString);
+                    var userId = stateData["_Id"];
+                    using var watchListRequest = new HttpRequestMessage(HttpMethod.Get, "http://localhost:55169/api/Users/" + userId + "/watchlist");
+                    watchListRequest.Headers.Add("Accept", "application/json");
+
+                    var watchListClient = _httpClientFactory.CreateClient();
+                    var response = await watchListClient.SendAsync(watchListRequest).ConfigureAwait(false);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        HttpContext.Session.SetString("watchlist", responseString);
+                    }
                 }
             }
             return View();

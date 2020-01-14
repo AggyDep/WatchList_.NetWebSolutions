@@ -1,0 +1,38 @@
+﻿@model UI.Models.Watchlist.WatchlistShowVM
+
+@{
+    ViewData["Title"] = "Add an item";
+
+    string Id = null;
+
+    if (TempData.ContainsKey("StateData"))
+    {
+        Dictionary<string, string> stateData = (Dictionary<string, string>)TempData["StateData"];
+        Id = stateData["_Id"];
+    }
+
+    TempData.Keep();
+}
+
+    <h1>Add @Html.DisplayFor(model => model.MovieName) to your watchlist?</h1>
+<hr />
+<div style="margin-top: 0.5%; display: flex; flex-direction: column;">
+    <div style="float: left; margin-right: 4%; margin-top: 0.5%; margin: auto;">
+        <img src="@Model.Image" alt="@Model.MovieName picture"
+             class="img-responsive" style="max-height: 250px">
+    </div>
+    <div style="margin: auto; margin-top: 4%;">
+        @{
+            var parms = new Dictionary<string, string>
+            {
+                        {"userId", Id },
+                        {"movieId", Model.MovieId.ToString() }
+                    };
+        }
+        <form asp-action="Add" asp-route-id=@Id asp-all-route-data="parms">
+            <input type="submit" value="Yes add to list" class="btn btn-success" /> |
+            <a asp-controller="Home" asp-action="Index" asp-route-id=@Id>No, go back to Home</a>
+        </form>
+    </div>
+</div>
+
