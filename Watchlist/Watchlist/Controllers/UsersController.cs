@@ -92,12 +92,12 @@ namespace API.Controllers
         /// <summary>
         /// Authenticate an existing user.
         /// </summary>
-        /// <param name="userAuthenticateDTO"></param>
+        /// <param name="userLoginDTO"></param>
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public async Task<ActionResult<UserDTO>> AuthenticateUser(UserAuthenticateDTO userAuthenticateDTO)
+        public async Task<ActionResult<UserDTO>> AuthenticateUser(UserLoginDTO userLoginDTO)
         {
-            var userResult = await _userService.Authenticate(userAuthenticateDTO.UserName, userAuthenticateDTO.Password).ConfigureAwait(false);
+            var userResult = await _userService.Authenticate(userLoginDTO.UserName, userLoginDTO.Password).ConfigureAwait(false);
 
             if (userResult == null)
             {
