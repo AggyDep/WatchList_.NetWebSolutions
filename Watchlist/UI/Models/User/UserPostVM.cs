@@ -31,7 +31,7 @@ namespace UI.Models.User
 
         [JsonPropertyName("lastName")]
         [Display(Name = "Last name")]
-        [Required(ErrorMessage = "The a-lastname is required.")]
+        [Required(ErrorMessage = "The lastname is required.")]
         [StringLength(60, MinimumLength = 2, ErrorMessage = "The length must be between 2 and 60 characters.")]
         [RegularExpression(@"^([a-zA-Z]+)[0-9]*\.*[a-zA-Z0-9]+$|^[a-zA-Z]+[0-9]*$", ErrorMessage = "Invalid characters used.")]
         public string LastName { get; set; }

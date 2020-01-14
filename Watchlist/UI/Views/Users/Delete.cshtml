@@ -1,12 +1,12 @@
 ﻿@model UI.Models.User.UserDeleteVM
 
 @{
-    ViewData["Title"] = "Delete " + @Model.Username;
+    ViewData["Title"] = (@Localizer["Delete"] + @Model.Username);
 }
 
-    <h1>Delete @Html.DisplayFor(model => model.Username)</h1>
+<h1>@Localizer["Delete"] @Html.DisplayFor(model => model.Username)</h1>
 
-<h3>Are you sure you want to delete this user?</h3>
+<h3>@Localizer["Are you sure you want to delete this user?"]</h3>
 <div>
     <hr />
     <dl class="row">
@@ -37,7 +37,7 @@
     </dl>
     
     <form asp-action="Delete">
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value=@Localizer["Delete"] class="btn btn-danger" /> |
+        <a asp-action="Index">@Localizer["Back to List"]</a>
     </form>
 </div>

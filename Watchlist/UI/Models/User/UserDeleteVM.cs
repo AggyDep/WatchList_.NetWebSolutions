@@ -12,7 +12,7 @@ namespace UI.Models.User
         [JsonPropertyName("id")]
         public string Id { get; set; }
 
-        [JsonPropertyName("userName")]
+        [JsonPropertyName("username")]
         [Display(Name = "Username")]
         [Required(ErrorMessage = "The username is required.")]
         [StringLength(60, MinimumLength = 2, ErrorMessage = "The length must be between 2 and 60 characters.")]

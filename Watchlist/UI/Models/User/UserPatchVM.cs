@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace UI.Models.User
 {
-    public class UserPatchDTO
+    public class UserPatchVM
     {
         [JsonPropertyName("id")]
         public string Id { get; set; }

@@ -14,6 +14,7 @@ namespace UI.Models.User
         public string Id { get; set; }
 
         [JsonPropertyName("role")]
+        [RegularExpression(@"^(?:user|User|U|admin|Admin|A)", ErrorMessage = "The role can only be u, User, user or a, Admin, admin.")]
         public int Role { get; set; }
 
         [JsonPropertyName("username")]
@@ -32,7 +33,7 @@ namespace UI.Models.User
 
         [JsonPropertyName("lastName")]
         [Display(Name = "Last name")]
-        [Required(ErrorMessage = "The a-lastname is required.")]
+        [Required(ErrorMessage = "The lastname is required.")]
         [StringLength(60, MinimumLength = 2, ErrorMessage = "The length must be between 2 and 60 characters.")]
         [RegularExpression(@"^([a-zA-Z]+)[0-9]*\.*[a-zA-Z0-9]+$|^[a-zA-Z]+[0-9]*$", ErrorMessage = "Invalid characters used.")]
         public string LastName { get; set; }
@@ -66,6 +67,7 @@ namespace UI.Models.User
         public string Joined { get; set; }
 
         [JsonPropertyName("token")]
+        [Display(Name = "Token")]
         public string Token { get; set; }
 
         [JsonPropertyName("watchListDTOs")]

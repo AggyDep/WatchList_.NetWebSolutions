@@ -11,11 +11,6 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.6.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Resources\Models\User\" />
-    <Folder Include="Resources\Views\Users\" />
-  </ItemGroup>
-
 
 
 </Project>
