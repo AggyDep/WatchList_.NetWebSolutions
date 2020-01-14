@@ -46,7 +46,7 @@ namespace UI.Models.User
         [Display(Name = "Password")]
         [Required(ErrorMessage = "The password is required.")]
         [DataType(DataType.Password, ErrorMessage = "Invalid password.")]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})",
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$^+=!*()@%&]).{6,}$",
             ErrorMessage = "The password must have a minimum lenght of 6 characters, have at least one upper case and one lower case character, " +
             "one digit and one special character.")]
         public string Password { get; set; }
