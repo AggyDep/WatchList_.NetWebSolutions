@@ -22,6 +22,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.HttpsPolicy;
 
 namespace Watchlist
 {
@@ -113,6 +114,7 @@ namespace Watchlist
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "WatchList API V1");
             });
 
+            app.UseHttpsRedirection();
             app.UseRouting();
 
             app.UseCors(x => x

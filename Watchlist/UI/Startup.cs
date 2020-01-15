@@ -15,6 +15,7 @@ using UI.Extensions;
 using UI.Handlers;
 using UI.Helpers;
 using UI.Services;
+using Microsoft.AspNetCore.HttpsPolicy;
 
 namespace UI
 {
@@ -98,6 +99,7 @@ namespace UI
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
