@@ -23,7 +23,7 @@ namespace UI.Models.Actor
         [JsonPropertyName("birthday")]
         [Display(Name = "Birthday")]
         [StringLength(10, ErrorMessage = "The length must be 10 characters.")]
-        [RegularExpression(@"^[a-zA-Z0-9ÀàáÂâçÉéÈèÊêëïîÔô'-\.\s]+$", ErrorMessage = "The birthday must be as DD/MM/YYYY.")]
+        [RegularExpression(@"^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$", ErrorMessage = "The birthday must be as DD/MM/YYYY.")]
         public string Birthday { get; set; }
 
         [JsonPropertyName("biography")]
