@@ -62,10 +62,11 @@
                         else
                         {
                             var parms = new Dictionary<string, string>
-                                {
+                            {
                                 {"userId", Id },
                                 {"movieId", movie.Id.ToString() }
                             };
+                            TempData["FilmId"] = movie.Id.ToString();
                             <a class="btn btn-primary" asp-controller="Watchlist" asp-action="Add" asp-all-route-data="parms">@Localizer["Add to watchlist"]</a>
                         }
                     }

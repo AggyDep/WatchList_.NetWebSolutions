@@ -25,9 +25,10 @@
         @{
             var parms = new Dictionary<string, string>
             {
-                        {"userId", Id },
-                        {"movieId", Model.MovieId.ToString() }
-                    };
+                {"userId", Id },
+                {"movieId", Model.MovieId.ToString() }
+            };
+            TempData["FilmId"] = Model.MovieId.ToString();
         }
         <form asp-action="Add" asp-route-id=@Id asp-all-route-data="parms">
             <input type="submit" value="@Localizer["Yes add to list"]" class="btn btn-success" /> |

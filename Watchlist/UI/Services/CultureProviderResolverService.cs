@@ -34,13 +34,18 @@ namespace UI.Services
 
             var request = httpContext.Request;
 
-            if (!request.QueryString.HasValue)
-            {
-                culture = null;
-                return false;
-            }
+            //if (!request.QueryString.HasValue)
+            //{
+            //    culture = null;
+            //    return false;
+            //}
 
             culture = request.Query["culture"];
+
+            if(culture == null)
+            {
+                return false;
+            }
 
             return true;
         }

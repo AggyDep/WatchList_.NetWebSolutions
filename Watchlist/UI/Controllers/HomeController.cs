@@ -28,6 +28,7 @@ namespace UI.Controllers
             string action = null;
             string area = null;
             string? id = null;
+            string? filmId = null;
 
             if (TempData["Controller"] != null)
             {
@@ -63,13 +64,23 @@ namespace UI.Controllers
 
             if (TempData["Id"] != null)
             {
-                var test = TempData["Id"].ToString();
-                //id = int.Parse(TempData["Id"].ToString());
                 id = TempData["Id"].ToString();
             }
             else
             {
                 id = null;
+            }
+
+            if (TempData["FilmId"] != null)
+            {
+                var test = TempData;
+                //id = int.Parse(TempData["Id"].ToString());
+                filmId = TempData["FilmId"].ToString();
+            }
+            else
+            {
+                var test = TempData;
+                filmId = null;
             }
 
             CookieOptions cookieOptions = new CookieOptions
@@ -78,7 +89,13 @@ namespace UI.Controllers
             };
             Request.HttpContext.Response.Cookies.Append("culture", culture, cookieOptions);
             Request.HttpContext.Session.SetString("culture", culture);
-            return RedirectToAction(action, controller, new { area, id });
+            if(controller == "Watchlist")
+            {
+                return RedirectToAction(action, controller, new { userId = id, movieId = filmId });
+            } else
+            {
+                return RedirectToAction(action, controller, new { area, id });
+            }
         }
 
         public async Task<IActionResult> Index()

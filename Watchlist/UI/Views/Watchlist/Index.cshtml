@@ -47,6 +47,7 @@
                         {"userId", Id },
                         {"movieId", item.MovieId.ToString() }
                     };
+                    TempData["FilmId"] = item.MovieId.ToString();
                  }
                 <div style="margin-top: 3.5%;">
                     <a asp-controller="Watchlist" asp-action="Update" asp-all-route-data="parms" style="margin-top: 5%;">@Localizer["Update item"]</a><br />

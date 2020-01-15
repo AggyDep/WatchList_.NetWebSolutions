@@ -262,8 +262,10 @@ namespace UI.Controllers
                     HttpContext.Session.Remove("watchlist");
                     HttpContext.Session.SetString("watchlist", responseString);
                 }
+                TempData["FilmId"] = null;
                 return RedirectToAction(nameof(Index), new { id = userId });
             }
+            TempData["FilmId"] = null;
             return RedirectToAction(nameof(Index), new { id = userId });
         }
 

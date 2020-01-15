@@ -27,10 +27,11 @@
         <h3>@Model.MovieName</h3>
         @{
             var parms = new Dictionary<string, string>
-                {
-                    {"userId", Id },
-                    {"movieId", Model.MovieId.ToString() }
-                };
+            {
+                {"userId", Id },
+                {"movieId", Model.MovieId.ToString() }
+            };
+            TempData["FilmId"] = Model.MovieId.ToString();
         }
         <form asp-action="Update" asp-all-route-data="parms">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
