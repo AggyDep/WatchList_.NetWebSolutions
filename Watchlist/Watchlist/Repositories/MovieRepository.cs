@@ -30,7 +30,7 @@ namespace API.Repositories
                    Synopsis = s.Synopsis,
                    Director = s.Director,
                    Duration = s.Duration,
-                   Score = s.Score,
+                   Score = Convert.ToInt32(s.Score),
                    Image = s.Image
                })
                .AsNoTracking()
@@ -50,7 +50,7 @@ namespace API.Repositories
                      Director = s.Director,
                      Aired = s.Aired,
                      Duration = s.Duration,
-                     Score = s.Score,
+                     Score = Convert.ToInt32(s.Score),
                      Image = s.Image,
                      MovieActorDTOs = s.MovieActors.Select(a => new MovieActorDTO()
                      {
@@ -82,6 +82,7 @@ namespace API.Repositories
                 Director = moviePostDTO.Director,
                 Aired = moviePostDTO.Aired,
                 Duration = moviePostDTO.Duration,
+                Image = moviePostDTO.Image,
                 MovieGenres = null,
                 MovieActors = null
             });

@@ -16,7 +16,7 @@ namespace UI.Models.Genre
         [Display(Name = "Genre name")]
         [Required(ErrorMessage = "The genre name is required.")]
         [StringLength(60, MinimumLength = 2, ErrorMessage = "The length must be between 2 and 60 characters.")]
-        [RegularExpression(@"^([a-zA-Z]+)[0-9]*\.*[a-zA-Z0-9]+$|^[a-zA-Z]+[0-9]*$", ErrorMessage = "Invalid characters used.")]
+        [RegularExpression(@"^[a-zA-Z0-9ÀàáÂâçÉéÈèÊêëïîÔô'-\.\s]+$", ErrorMessage = "Invalid characters used.")]
         public string GenreName { get; set; }
 
         [JsonPropertyName("movieGenreDTOs")]

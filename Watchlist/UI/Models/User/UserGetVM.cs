@@ -17,7 +17,7 @@ namespace UI.Models.User
         [Display(Name = "Username")]
         [Required(ErrorMessage = "The username is required.")]
         [StringLength(60, MinimumLength = 2, ErrorMessage = "The length must be between 2 and 60 characters.")]
-        [RegularExpression(@"^([a-zA-Z]+)[0-9]*\.*[a-zA-Z0-9]+$|^[a-zA-Z]+[0-9]*$", ErrorMessage = "Invalid characters used.")]
+        [RegularExpression(@"^[a-zA-Z0-9ÀàáÂâçÉéÈèÊêëïîÔô'-\.\s]+$", ErrorMessage = "Invalid characters used.")]
         public string Username { get; set; }
 
         [JsonPropertyName("image")]

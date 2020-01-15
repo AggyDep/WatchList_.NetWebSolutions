@@ -18,7 +18,7 @@ namespace UI.Models.Movie
         [Display(Name = "Name")]
         [Required(ErrorMessage = "The name is required.")]
         [StringLength(60, MinimumLength = 2, ErrorMessage = "The length must be between 2 and 60 characters.")]
-        [RegularExpression(@"^([a-zA-Z]+)[0-9]*\.*[a-zA-Z0-9]+$|^[a-zA-Z]+[0-9]*$", ErrorMessage = "Invalid characters used.")]
+        [RegularExpression(@"^[a-zA-Z0-9ÀàáÂâçÉéÈèÊêëïîÔô'-\.\s]+$", ErrorMessage = "Invalid characters used.")]
         public string Name { get; set; }
 
         [JsonPropertyName("synopsis")]
@@ -29,17 +29,18 @@ namespace UI.Models.Movie
         [Display(Name = "Director")]
         [Required(ErrorMessage = "The director is required.")]
         [StringLength(60, MinimumLength = 2, ErrorMessage = "The length must be between 2 and 60 characters.")]
-        [RegularExpression(@"^([a-zA-Z]+)[0-9]*\.*[a-zA-Z0-9]+$|^[a-zA-Z]+[0-9]*$", ErrorMessage = "Invalid characters used.")]
+        [RegularExpression(@"^[a-zA-Z0-9ÀàáÂâçÉéÈèÊêëïîÔô'-\.\s]+$", ErrorMessage = "Invalid characters used.")]
         public string Director { get; set; }
 
         [JsonPropertyName("aired")]
         [Display(Name = "Aired")]
         [Required(ErrorMessage = "The airing date is required.")]
         [StringLength(10, ErrorMessage = "The length must be 10 characters.")]
-        [RegularExpression(@"^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$", ErrorMessage = "The airing date must be as DD/MM/YYYY.")]
+        [RegularExpression(@"^[a-zA-Z0-9ÀàáÂâçÉéÈèÊêëïîÔô'-\.\s]+$", ErrorMessage = "The airing date must be as DD/MM/YYYY.")]
         public string Aired { get; set; }
 
         [JsonPropertyName("duration")]
+        [Display(Name = "Duration")]
         [Required(ErrorMessage = "The duration is required.")]
         [StringLength(4, ErrorMessage = "The length must be 4 characters.")]
         [RegularExpression(@"([0-9]h[0-9][0-9])", ErrorMessage = "The duration must be as 0h00.")]
